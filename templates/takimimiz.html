@@ -5,39 +5,44 @@
 {% block content %}
 
 {% set depts = [
-    ('elektronik', '⚡ Elektronik',  '#1d4ed8', '#3b82f6', 'Araçların devre tasarımı, güç elektroniği ve donanım entegrasyonundan sorumlu ekip.'),
-    ('yazilim',    '💻 Yazılım',     '#7c3aed', '#8b5cf6', 'Otonom kontrol, görüntü işleme ve gömülü sistem yazılımlarını geliştiren ekip.'),
-    ('mekanik',    '⚙️ Mekanik',     '#d97706', '#f59e0b', 'Platform gövdesi, yapısal analiz ve üretim süreçlerini yöneten ekip.'),
-    ('organizasyon','🤝 Organizasyon','#059669', '#10b981', 'Takımın sürdürülebilirliği, sponsorluk ve dış iletişimi yöneten ekip.')
+('elektronik', '⚡ Elektronik', '#1d4ed8', '#3b82f6', 'Araçların devre tasarımı, güç elektroniği ve donanım
+entegrasyonundan sorumlu ekip.'),
+('yazilim', '💻 Yazılım', '#7c3aed', '#8b5cf6', 'Otonom kontrol, görüntü işleme ve gömülü sistem yazılımlarını
+geliştiren ekip.'),
+('mekanik', '⚙️ Mekanik', '#d97706', '#f59e0b', 'Platform gövdesi, yapısal analiz ve üretim süreçlerini yöneten ekip.'),
+('organizasyon','🤝 Organizasyon','#059669', '#10b981', 'Takımın sürdürülebilirliği, sponsorluk ve dış iletişimi yöneten
+ekip.')
 ] %}
 
 {% macro dept_color(dept) %}
-  {% if dept == 'elektronik' %}#1d4ed8
-  {% elif dept == 'yazilim' %}#7c3aed
-  {% elif dept == 'mekanik' %}#d97706
-  {% else %}#059669
-  {% endif %}
+{% if dept == 'elektronik' %}#1d4ed8
+{% elif dept == 'yazilim' %}#7c3aed
+{% elif dept == 'mekanik' %}#d97706
+{% else %}#059669
+{% endif %}
 {% endmacro %}
 
 <section class="team-page">
     <div class="container">
 
-        <!-- ── Başlık ── -->
         <div class="team-hero">
             <h1 class="page-title">Takımımız</h1>
-            <p class="team-sub">Farklı mühendislik disiplinlerinden gelen üyelerimiz dört ana birimde bir arada çalışır.</p>
+            <p class="team-sub">Farklı mühendislik disiplinlerinden gelen üyelerimiz dört ana birimde bir arada çalışır.
+            </p>
 
-            <!-- Departman filtre nav -->
             <div class="dept-nav">
                 <button class="dept-btn active" data-dept="all">Tümü</button>
-                <button class="dept-btn" data-dept="elektronik"><span class="dept-dot" style="background:#3b82f6"></span> Elektronik</button>
-                <button class="dept-btn" data-dept="yazilim"><span class="dept-dot" style="background:#8b5cf6"></span> Yazılım</button>
-                <button class="dept-btn" data-dept="mekanik"><span class="dept-dot" style="background:#f59e0b"></span> Mekanik</button>
-                <button class="dept-btn" data-dept="organizasyon"><span class="dept-dot" style="background:#10b981"></span> Organizasyon</button>
+                <button class="dept-btn" data-dept="elektronik"><span class="dept-dot"
+                        style="background:#3b82f6"></span> Elektronik</button>
+                <button class="dept-btn" data-dept="yazilim"><span class="dept-dot" style="background:#8b5cf6"></span>
+                    Yazılım</button>
+                <button class="dept-btn" data-dept="mekanik"><span class="dept-dot" style="background:#f59e0b"></span>
+                    Mekanik</button>
+                <button class="dept-btn" data-dept="organizasyon"><span class="dept-dot"
+                        style="background:#10b981"></span> Organizasyon</button>
             </div>
         </div>
 
-        <!-- ── Admin toolbar ── -->
         {% if admin %}
         <div class="admin-toolbar">
             <span class="admin-badge">🔧 Admin Modu</span>
@@ -45,18 +50,19 @@
         </div>
         {% endif %}
 
-        <!-- ── Departman bölümleri ── -->
         {% for dept_key, dept_label, dept_dark, dept_light, dept_desc in depts %}
         {% set dept_members = uyeler | selectattr('departman', 'equalto', dept_key) | list %}
         <div class="dept-section" id="dept-{{ dept_key }}">
             <div class="dept-header">
-                <div class="dept-stripe" style="background: linear-gradient(90deg, {{ dept_dark }}, {{ dept_light }})"></div>
+                <div class="dept-stripe" style="background: linear-gradient(90deg, {{ dept_dark }}, {{ dept_light }})">
+                </div>
                 <div>
                     <h2 class="dept-title">{{ dept_label }}</h2>
                     <p class="dept-desc">{{ dept_desc }}</p>
                 </div>
                 {% if admin %}
-                <button class="dept-add-quick" data-dept="{{ dept_key }}" title="{{ dept_label }} ekibine üye ekle" style="margin-left:auto; background:{{ dept_dark }};">+ Üye</button>
+                <button class="dept-add-quick" data-dept="{{ dept_key }}" title="{{ dept_label }} ekibine üye ekle"
+                    style="margin-left:auto; background:{{ dept_dark }};">+ Üye</button>
                 {% endif %}
             </div>
 
@@ -65,32 +71,33 @@
                 <div class="member-card" data-dept="{{ uye.departman }}" data-uid="{{ uye.id }}">
                     <div class="member-avatar-wrap">
                         {% if uye.foto %}
-                        <img class="member-avatar" src="{{ url_for('static', filename='uploads/' ~ uye.foto) }}" alt="{{ uye.isim }}">
+                        <img class="member-avatar" src="{{ uye.foto }}" alt="{{ uye.isim }}">
                         {% else %}
-                        <div class="member-avatar placeholder-avatar" style="background: linear-gradient(135deg, {{ dept_dark }}, {{ dept_light }})">
+                        <div class="member-avatar placeholder-avatar"
+                            style="background: linear-gradient(135deg, {{ dept_dark }}, {{ dept_light }})">
                             {{ uye.isim[0] | upper }}
                         </div>
                         {% endif %}
-                        <span class="member-dept-badge" style="background:{{ dept_dark }}">{{ dept_label.split(' ', 1)[1] }}</span>
+                        <span class="member-dept-badge" style="background:{{ dept_dark }}">{{ dept_label.split(' ',
+                            1)[1] }}</span>
                     </div>
                     <div class="member-info">
                         <h3 class="member-name">{{ uye.isim }}</h3>
                         <p class="member-role">{{ uye.gorev }}</p>
                         {% if uye.linkedin %}
                         <a class="member-linkedin" href="{{ uye.linkedin }}" target="_blank" rel="noopener">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.6c0-1.34-.03-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97v5.7h-3v-10h2.88v1.36h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.6v5.6z"/></svg>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76s.78-1.76 1.75-1.76 1.75.79 1.75 1.76-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.6c0-1.34-.03-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97v5.7h-3v-10h2.88v1.36h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.6v5.6z" />
+                            </svg>
                             LinkedIn
                         </a>
                         {% endif %}
                         {% if admin %}
                         <div class="admin-card-actions">
-                            <button class="card-edit-btn"
-                                data-uid="{{ uye.id }}"
-                                data-isim="{{ uye.isim }}"
-                                data-gorev="{{ uye.gorev }}"
-                                data-dept="{{ uye.departman }}"
-                                data-linkedin="{{ uye.linkedin }}"
-                                data-foto="{{ uye.foto }}">✏️ Düzenle</button>
+                            <button class="card-edit-btn" data-uid="{{ uye.id }}" data-isim="{{ uye.isim }}"
+                                data-gorev="{{ uye.gorev }}" data-dept="{{ uye.departman }}"
+                                data-linkedin="{{ uye.linkedin }}" data-foto="{{ uye.foto }}">✏️ Düzenle</button>
                             <button class="card-del-btn" data-uid="{{ uye.id }}" data-isim="{{ uye.isim }}">🗑️</button>
                         </div>
                         {% endif %}
@@ -110,7 +117,6 @@
     </div>
 </section>
 
-<!-- ───────────────── MODAL (Admin) ───────────────── -->
 {% if admin %}
 <div class="modal-overlay" id="uye-modal" style="display:none;" aria-modal="true" role="dialog">
     <div class="modal-box">
@@ -164,284 +170,584 @@
 </div>
 {% endif %}
 
-<!-- ───────────────── STYLES ───────────────── -->
 <style>
-.team-page { padding: 4rem 0 6rem; }
-.team-hero { text-align: center; margin-bottom: 3rem; }
-.team-sub { color: var(--text-soft); font-size: 1rem; margin: 0.6rem 0 2rem; }
-
-.dept-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem; }
-.dept-btn {
-    display: flex; align-items: center; gap: 0.45rem;
-    padding: 0.5rem 1.1rem; border-radius: 30px;
-    border: 1.5px solid var(--border-str);
-    background: transparent; color: var(--text-soft);
-    font-family: inherit; font-size: 0.85rem; font-weight: 600;
-    cursor: pointer; transition: all 0.2s;
-}
-.dept-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
-.dept-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-.dept-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
-/* Admin toolbar */
-.admin-toolbar {
-    display: flex; align-items: center; gap: 1rem;
-    padding: 0.8rem 1.2rem; margin-bottom: 2rem;
-    background: var(--bg-card); border: 1.5px dashed var(--accent);
-    border-radius: 14px;
-}
-.admin-badge { font-size: 0.82rem; font-weight: 700; color: var(--accent); }
-.admin-add-btn {
-    margin-left: auto; padding: 0.5rem 1rem;
-    background: var(--accent); color: #fff;
-    border: none; border-radius: 8px;
-    font-family: inherit; font-size: 0.85rem; font-weight: 700;
-    cursor: pointer; transition: filter 0.2s;
-}
-.admin-add-btn:hover { filter: brightness(1.1); }
-.dept-add-quick {
-    padding: 0.35rem 0.8rem; color: #fff;
-    border: none; border-radius: 8px;
-    font-family: inherit; font-size: 0.8rem; font-weight: 700;
-    cursor: pointer; opacity: 0.85; transition: opacity 0.2s; flex-shrink: 0;
-}
-.dept-add-quick:hover { opacity: 1; }
-
-/* Dept sections */
-.dept-section { margin-bottom: 3rem; }
-.dept-section.hidden { display: none; }
-.dept-header {
-    display: flex; align-items: center; gap: 1.2rem;
-    margin-bottom: 1.5rem; padding: 1.1rem 1.4rem;
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 16px; flex-wrap: wrap;
-}
-.dept-stripe { width: 5px; height: 48px; border-radius: 4px; flex-shrink: 0; }
-.dept-title { font-size: 1.2rem; font-weight: 800; color: var(--text-strong); margin: 0 0 0.2rem; }
-.dept-desc { font-size: 0.85rem; color: var(--text-soft); margin: 0; }
-
-/* Members grid */
-.members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 1.1rem; }
-
-/* Member card */
-.member-card {
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 18px; overflow: hidden; display: flex;
-    flex-direction: column; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-}
-.member-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--border-str); }
-
-.member-avatar-wrap { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; }
-.member-avatar { width: 100%; height: 100%; object-fit: cover; display: block; }
-.placeholder-avatar { display: flex; align-items: center; justify-content: center; font-size: 2.8rem; font-weight: 900; color: rgba(255,255,255,0.25); }
-.member-dept-badge { position: absolute; top: 8px; right: 8px; color: #fff; font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 9px; letter-spacing: 0.04em; }
-
-.member-info { padding: 0.9rem 1rem 1rem; display: flex; flex-direction: column; gap: 0.2rem; flex: 1; }
-.member-name { font-size: 0.92rem; font-weight: 700; color: var(--text-strong); margin: 0; }
-.member-role { font-size: 0.76rem; color: var(--text-soft); margin: 0; font-weight: 500; }
-.member-linkedin { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.45rem; color: #0a66c2; font-size: 0.76rem; font-weight: 600; transition: opacity 0.2s; width: fit-content; }
-.member-linkedin:hover { opacity: 0.75; }
-
-/* Admin card actions */
-.admin-card-actions { display: flex; gap: 0.4rem; margin-top: 0.6rem; }
-.card-edit-btn, .card-del-btn {
-    border: none; border-radius: 7px; font-family: inherit;
-    font-size: 0.72rem; font-weight: 700; cursor: pointer;
-    padding: 4px 8px; transition: filter 0.2s;
-}
-.card-edit-btn { background: rgba(59,130,246,0.15); color: #3b82f6; }
-.card-edit-btn:hover { filter: brightness(1.2); }
-.card-del-btn { background: rgba(239,68,68,0.12); color: #ef4444; }
-.card-del-btn:hover { filter: brightness(1.2); }
-
-/* Empty dept */
-.empty-dept { color: var(--text-soft); font-size: 0.85rem; font-style: italic; padding: 1.5rem; background: var(--bg-card); border: 1px dashed var(--border-str); border-radius: 14px; text-align: center; grid-column: 1/-1; }
-
-/* ── MODAL ── */
-.modal-overlay {
-    position: fixed; inset: 0; z-index: 1000;
-    background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
-    display: flex; align-items: center; justify-content: center; padding: 1rem;
-}
-.modal-box {
-    background: var(--bg-card); border: 1px solid var(--border-str);
-    border-radius: 20px; padding: 2rem; width: 100%; max-width: 480px;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.4);
-    animation: modalIn 0.22s ease;
-}
-@keyframes modalIn { from { opacity: 0; transform: translateY(-16px) scale(0.97); } to { opacity: 1; transform: none; } }
-
-.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.3rem; }
-.modal-header h3 { margin: 0; font-size: 1.15rem; color: var(--text-strong); }
-.modal-close { background: none; border: none; color: var(--text-soft); font-size: 1.2rem; cursor: pointer; padding: 4px; }
-.modal-close:hover { color: var(--text-strong); }
-
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
-.form-group { margin-bottom: 0.9rem; }
-.form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text-soft); margin-bottom: 0.35rem; }
-.form-group input, .form-group select {
-    width: 100%; border: 1.5px solid var(--border-str);
-    border-radius: 10px; background: var(--bg); color: var(--text-strong);
-    padding: 0.55rem 0.75rem; font-family: inherit; font-size: 0.9rem; outline: none;
-    transition: border-color 0.2s;
-}
-.form-group input:focus, .form-group select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-.file-upload-label {
-    display: flex; align-items: center; gap: 0.5rem;
-    padding: 0.55rem 0.75rem; border: 1.5px dashed var(--border-str);
-    border-radius: 10px; cursor: pointer; font-size: 0.85rem; color: var(--text-soft);
-    transition: border-color 0.2s;
-}
-.file-upload-label:hover { border-color: var(--accent); color: var(--accent); }
-
-.modal-actions { display: flex; gap: 0.7rem; justify-content: flex-end; margin-top: 0.4rem; }
-
-@media (max-width: 480px) {
-    .form-row { grid-template-columns: 1fr; }
-    .members-grid { grid-template-columns: repeat(2, 1fr); }
-}
-</style>
-
-<!-- ───────────────── SCRIPTS ───────────────── -->
-<script>
-// ── Filtre ──
-(function() {
-    const btns = document.querySelectorAll('.dept-btn');
-    const sections = document.querySelectorAll('.dept-section');
-    btns.forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            btns.forEach(function(b) { b.classList.remove('active'); });
-            btn.classList.add('active');
-            const dept = btn.getAttribute('data-dept');
-            sections.forEach(function(sec) {
-                if (dept === 'all') sec.classList.remove('hidden');
-                else sec.classList.toggle('hidden', sec.id !== 'dept-' + dept);
-            });
-        });
-    });
-})();
-
-{% if admin %}
-// ── Admin Modal ──
-(function() {
-    const modal   = document.getElementById('uye-modal');
-    const form    = document.getElementById('uye-form');
-    const uidInp  = document.getElementById('uye-id');
-    const fIsim   = document.getElementById('f-isim');
-    const fGorev  = document.getElementById('f-gorev');
-    const fDept   = document.getElementById('f-dept');
-    const fLi     = document.getElementById('f-linkedin');
-    const fFoto   = document.getElementById('f-foto');
-    const errEl   = document.getElementById('modal-error');
-    const prevWrap= document.getElementById('foto-preview-wrap');
-    const prevImg = document.getElementById('foto-preview');
-    const mtitle  = document.getElementById('modal-title');
-    const fotoLbl = document.getElementById('foto-label-text');
-
-    function openModal(uid, isim, gorev, dept, linkedin, foto) {
-        uidInp.value  = uid   || '';
-        fIsim.value   = isim  || '';
-        fGorev.value  = gorev || '';
-        fDept.value   = dept  || '';
-        fLi.value     = linkedin || '';
-        fFoto.value   = '';
-        errEl.style.display = 'none';
-        prevWrap.style.display = 'none';
-        fotoLbl.textContent = '📷 Fotoğraf seç (JPG, PNG, WEBP)';
-        mtitle.textContent = uid ? 'Üyeyi Düzenle' : 'Yeni Üye Ekle';
-        if (foto) {
-            prevImg.src = '/static/uploads/' + foto;
-            prevWrap.style.display = 'block';
-        }
-        modal.style.display = 'flex';
-        fIsim.focus();
+    .team-page {
+        padding: 4rem 0 6rem;
     }
 
-    function closeModal() { modal.style.display = 'none'; }
+    .team-hero {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
 
-    document.getElementById('modal-close').addEventListener('click', closeModal);
-    document.getElementById('modal-cancel').addEventListener('click', closeModal);
-    modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+    .team-sub {
+        color: var(--text-soft);
+        font-size: 1rem;
+        margin: 0.6rem 0 2rem;
+    }
 
-    // Yeni üye butonu (üstteki genel)
-    const addBtn = document.getElementById('btn-add-member');
-    if (addBtn) addBtn.addEventListener('click', function() { openModal('','','','','',''); });
+    .dept-nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
 
-    // Departman hızlı ekle butonları
-    document.querySelectorAll('.dept-add-quick').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            openModal('', '', '', btn.getAttribute('data-dept'), '', '');
-        });
-    });
+    .dept-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.5rem 1.1rem;
+        border-radius: 30px;
+        border: 1.5px solid var(--border-str);
+        background: transparent;
+        color: var(--text-soft);
+        font-family: inherit;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
 
-    // Düzenle butonları
-    document.querySelectorAll('.card-edit-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            openModal(
-                btn.dataset.uid, btn.dataset.isim, btn.dataset.gorev,
-                btn.dataset.dept, btn.dataset.linkedin, btn.dataset.foto
-            );
-        });
-    });
+    .dept-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-glow);
+    }
 
-    // Sil butonları
-    document.querySelectorAll('.card-del-btn').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            const uid = btn.dataset.uid;
-            const isim = btn.dataset.isim;
-            if (!confirm(isim + ' adlı üyeyi silmek istediğinize emin misiniz?')) return;
-            const fd = new FormData();
-            fd.append('csrf_token', '{{ csrf_token() }}');
-            fetch('/api/uye/sil/' + uid, { method: 'POST', body: fd })
-                .then(function(r) { return r.json(); })
-                .then(function(d) {
-                    if (d.ok) window.location.reload();
-                    else alert('Hata: ' + d.error);
-                });
-        });
-    });
+    .dept-btn.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+    }
 
-    // Foto önizleme
-    fFoto.addEventListener('change', function() {
-        if (fFoto.files[0]) {
-            fotoLbl.textContent = '✅ ' + fFoto.files[0].name;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                prevImg.src = e.target.result;
-                prevWrap.style.display = 'block';
-            };
-            reader.readAsDataURL(fFoto.files[0]);
+    .dept-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    /* Admin toolbar */
+    .admin-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.8rem 1.2rem;
+        margin-bottom: 2rem;
+        background: var(--bg-card);
+        border: 1.5px dashed var(--accent);
+        border-radius: 14px;
+    }
+
+    .admin-badge {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--accent);
+    }
+
+    .admin-add-btn {
+        margin-left: auto;
+        padding: 0.5rem 1rem;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: filter 0.2s;
+    }
+
+    .admin-add-btn:hover {
+        filter: brightness(1.1);
+    }
+
+    .dept-add-quick {
+        padding: 0.35rem 0.8rem;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        opacity: 0.85;
+        transition: opacity 0.2s;
+        flex-shrink: 0;
+    }
+
+    .dept-add-quick:hover {
+        opacity: 1;
+    }
+
+    /* Dept sections */
+    .dept-section {
+        margin-bottom: 3rem;
+    }
+
+    .dept-section.hidden {
+        display: none;
+    }
+
+    .dept-header {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        margin-bottom: 1.5rem;
+        padding: 1.1rem 1.4rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        flex-wrap: wrap;
+    }
+
+    .dept-stripe {
+        width: 5px;
+        height: 48px;
+        border-radius: 4px;
+        flex-shrink: 0;
+    }
+
+    .dept-title {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: var(--text-strong);
+        margin: 0 0 0.2rem;
+    }
+
+    .dept-desc {
+        font-size: 0.85rem;
+        color: var(--text-soft);
+        margin: 0;
+    }
+
+    /* Members grid */
+    .members-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+        gap: 1.1rem;
+    }
+
+    /* Member card */
+    .member-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+
+    .member-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow);
+        border-color: var(--border-str);
+    }
+
+    .member-avatar-wrap {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1/1;
+        overflow: hidden;
+    }
+
+    .member-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .placeholder-avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.8rem;
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.25);
+    }
+
+    .member-dept-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: 9px;
+        letter-spacing: 0.04em;
+    }
+
+    .member-info {
+        padding: 0.9rem 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        flex: 1;
+    }
+
+    .member-name {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: var(--text-strong);
+        margin: 0;
+    }
+
+    .member-role {
+        font-size: 0.76rem;
+        color: var(--text-soft);
+        margin: 0;
+        font-weight: 500;
+    }
+
+    .member-linkedin {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        margin-top: 0.45rem;
+        color: #0a66c2;
+        font-size: 0.76rem;
+        font-weight: 600;
+        transition: opacity 0.2s;
+        width: fit-content;
+    }
+
+    .member-linkedin:hover {
+        opacity: 0.75;
+    }
+
+    /* Admin card actions */
+    .admin-card-actions {
+        display: flex;
+        gap: 0.4rem;
+        margin-top: 0.6rem;
+    }
+
+    .card-edit-btn,
+    .card-del-btn {
+        border: none;
+        border-radius: 7px;
+        font-family: inherit;
+        font-size: 0.72rem;
+        font-weight: 700;
+        cursor: pointer;
+        padding: 4px 8px;
+        transition: filter 0.2s;
+    }
+
+    .card-edit-btn {
+        background: rgba(59, 130, 246, 0.15);
+        color: #3b82f6;
+    }
+
+    .card-edit-btn:hover {
+        filter: brightness(1.2);
+    }
+
+    .card-del-btn {
+        background: rgba(239, 68, 68, 0.12);
+        color: #ef4444;
+    }
+
+    .card-del-btn:hover {
+        filter: brightness(1.2);
+    }
+
+    /* Empty dept */
+    .empty-dept {
+        color: var(--text-soft);
+        font-size: 0.85rem;
+        font-style: italic;
+        padding: 1.5rem;
+        background: var(--bg-card);
+        border: 1px dashed var(--border-str);
+        border-radius: 14px;
+        text-align: center;
+        grid-column: 1/-1;
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .modal-box {
+        background: var(--bg-card);
+        border: 1px solid var(--border-str);
+        border-radius: 20px;
+        padding: 2rem;
+        width: 100%;
+        max-width: 480px;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+        animation: modalIn 0.22s ease;
+    }
+
+    @keyframes modalIn {
+        from {
+            opacity: 0;
+            transform: translateY(-16px) scale(0.97);
         }
-    });
 
-    // Form gönder
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        errEl.style.display = 'none';
-        const uid = uidInp.value;
-        const url = uid ? '/api/uye/guncelle/' + uid : '/api/uye/ekle';
-        const fd = new FormData(form);
-        fd.append('csrf_token', '{{ csrf_token() }}');
-        document.getElementById('modal-submit').textContent = 'Kaydediliyor...';
-        fetch(url, { method: 'POST', body: fd })
-            .then(function(r) { return r.json(); })
-            .then(function(d) {
-                if (d.ok) {
-                    window.location.reload();
-                } else {
-                    errEl.textContent = 'Hata: ' + d.error;
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.3rem;
+    }
+
+    .modal-header h3 {
+        margin: 0;
+        font-size: 1.15rem;
+        color: var(--text-strong);
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        color: var(--text-soft);
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 4px;
+    }
+
+    .modal-close:hover {
+        color: var(--text-strong);
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.9rem;
+    }
+
+    .form-group {
+        margin-bottom: 0.9rem;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text-soft);
+        margin-bottom: 0.35rem;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        border: 1.5px solid var(--border-str);
+        border-radius: 10px;
+        background: var(--bg);
+        color: var(--text-strong);
+        padding: 0.55rem 0.75rem;
+        font-family: inherit;
+        font-size: 0.9rem;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .file-upload-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.55rem 0.75rem;
+        border: 1.5px dashed var(--border-str);
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        color: var(--text-soft);
+        transition: border-color 0.2s;
+    }
+
+    .file-upload-label:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    .modal-actions {
+        display: flex;
+        gap: 0.7rem;
+        justify-content: flex-end;
+        margin-top: 0.4rem;
+    }
+
+    @media (max-width: 480px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .members-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+
+<script>
+    // ── Filtre ──
+    (function () {
+        const btns = document.querySelectorAll('.dept-btn');
+        const sections = document.querySelectorAll('.dept-section');
+        btns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                btns.forEach(function (b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                const dept = btn.getAttribute('data-dept');
+                sections.forEach(function (sec) {
+                    if (dept === 'all') sec.classList.remove('hidden');
+                    else sec.classList.toggle('hidden', sec.id !== 'dept-' + dept);
+                });
+            });
+        });
+    })();
+
+    {% if admin %}
+    // ── Admin Modal ──
+    (function () {
+        const modal = document.getElementById('uye-modal');
+        const form = document.getElementById('uye-form');
+        const uidInp = document.getElementById('uye-id');
+        const fIsim = document.getElementById('f-isim');
+        const fGorev = document.getElementById('f-gorev');
+        const fDept = document.getElementById('f-dept');
+        const fLi = document.getElementById('f-linkedin');
+        const fFoto = document.getElementById('f-foto');
+        const errEl = document.getElementById('modal-error');
+        const prevWrap = document.getElementById('foto-preview-wrap');
+        const prevImg = document.getElementById('foto-preview');
+        const mtitle = document.getElementById('modal-title');
+        const fotoLbl = document.getElementById('foto-label-text');
+
+        function openModal(uid, isim, gorev, dept, linkedin, foto) {
+            uidInp.value = uid || '';
+            fIsim.value = isim || '';
+            fGorev.value = gorev || '';
+            fDept.value = dept || '';
+            fLi.value = linkedin || '';
+            fFoto.value = '';
+            errEl.style.display = 'none';
+            prevWrap.style.display = 'none';
+            fotoLbl.textContent = '📷 Fotoğraf seç (JPG, PNG, WEBP)';
+            mtitle.textContent = uid ? 'Üyeyi Düzenle' : 'Yeni Üye Ekle';
+
+            // JS ÖNİZLEME YOLU DÜZELTİLDİ (URL_FOR KALDIRILDI)
+            if (foto) {
+                prevImg.src = foto;
+                prevWrap.style.display = 'block';
+            }
+
+            modal.style.display = 'flex';
+            fIsim.focus();
+        }
+
+        function closeModal() { modal.style.display = 'none'; }
+
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        document.getElementById('modal-cancel').addEventListener('click', closeModal);
+        modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+
+        // Yeni üye butonu (üstteki genel)
+        const addBtn = document.getElementById('btn-add-member');
+        if (addBtn) addBtn.addEventListener('click', function () { openModal('', '', '', '', '', ''); });
+
+        // Departman hızlı ekle butonları
+        document.querySelectorAll('.dept-add-quick').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                openModal('', '', '', btn.getAttribute('data-dept'), '', '');
+            });
+        });
+
+        // Düzenle butonları
+        document.querySelectorAll('.card-edit-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                openModal(
+                    btn.dataset.uid, btn.dataset.isim, btn.dataset.gorev,
+                    btn.dataset.dept, btn.dataset.linkedin, btn.dataset.foto
+                );
+            });
+        });
+
+        // Sil butonları
+        document.querySelectorAll('.card-del-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const uid = btn.dataset.uid;
+                const isim = btn.dataset.isim;
+                if (!confirm(isim + ' adlı üyeyi silmek istediğinize emin misiniz?')) return;
+                const fd = new FormData();
+                fd.append('csrf_token', '{{ csrf_token() }}');
+                fetch('/api/uye/sil/' + uid, { method: 'POST', body: fd })
+                    .then(function (r) { return r.json(); })
+                    .then(function (d) {
+                        if (d.ok) window.location.reload();
+                        else alert('Hata: ' + d.error);
+                    });
+            });
+        });
+
+        // Foto önizleme
+        fFoto.addEventListener('change', function () {
+            if (fFoto.files[0]) {
+                fotoLbl.textContent = '✅ ' + fFoto.files[0].name;
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    prevImg.src = e.target.result;
+                    prevWrap.style.display = 'block';
+                };
+                reader.readAsDataURL(fFoto.files[0]);
+            }
+        });
+
+        // Form gönder
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            errEl.style.display = 'none';
+            const uid = uidInp.value;
+            const url = uid ? '/api/uye/guncelle/' + uid : '/api/uye/ekle';
+            const fd = new FormData(form);
+            fd.append('csrf_token', '{{ csrf_token() }}');
+            document.getElementById('modal-submit').textContent = 'Kaydediliyor...';
+            fetch(url, { method: 'POST', body: fd })
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    if (d.ok) {
+                        window.location.reload();
+                    } else {
+                        errEl.textContent = 'Hata: ' + d.error;
+                        errEl.style.display = 'block';
+                        document.getElementById('modal-submit').textContent = 'Kaydet';
+                    }
+                })
+                .catch(function () {
+                    errEl.textContent = 'Bağlantı hatası. Lütfen tekrar deneyin.';
                     errEl.style.display = 'block';
                     document.getElementById('modal-submit').textContent = 'Kaydet';
-                }
-            })
-            .catch(function() {
-                errEl.textContent = 'Bağlantı hatası. Lütfen tekrar deneyin.';
-                errEl.style.display = 'block';
-                document.getElementById('modal-submit').textContent = 'Kaydet';
-            });
-    });
-})();
-{% endif %}
+                });
+        });
+    })();
+    {% endif %}
 </script>
 
 {% endblock %}
