@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+
+{% block title %}Anasayfa | Derin Mavi{% endblock %}
+
+{% block content %}
+
+<!-- ══════════════════════════════
+     HERO
+══════════════════════════════ -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="container hero-grid">
+
+            <!-- Sol: Metin -->
+            <div class="hero-left">
+
+                <h1 class="hero-title">
+                    Geleceğin teknolojisini<br>
+                    <em>bugünden</em> inşa ediyoruz.
+                </h1>
+
+                <p class="hero-text">
+                    Yıldız Teknik Üniversitesi çatısı altında; su altından gökyüzüne kadar uzanan geniş bir yelpazede,
+                    tam otonom ve akıllı sistemler tasarlayan, üreten ve sahadaki sınırları zorlayan disiplinler arası
+                    bir teknoloji ekibiyiz.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="{{ url_for('projelerimiz') }}" class="btn-primary">
+                        🚀 Projelerimizi İncele
+                    </a>
+                    <a href="{{ url_for('takimimiz') }}" class="btn-ghost">
+                        Ekibimizle Tanış →
+                    </a>
+                </div>
+
+                <div class="hero-pills">
+                    <span class="hero-feature-pill">🤿 İnsansız Denizaltı</span>
+                    <span class="hero-feature-pill">🎯 Hava Savunma</span>
+                    <span class="hero-feature-pill">🛸 İHA Sistemleri</span>
+                </div>
+            </div>
+
+            <!-- Sağ: İstatistik kartları -->
+            <div class="hero-visual">
+                <div class="hero-stat-card">
+                    <span class="stat-icon">🏆</span>
+                    <div>
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">Ulusal ve Uluslararası Yarışma</div>
+                    </div>
+                </div>
+                <div class="hero-stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Aktif Proje</div>
+                </div>
+                <div class="hero-stat-card">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Kulüp Üyesi</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="hero-scroll">Aşağı kaydır</div>
+</section>
+
+<!-- ══════════════════════════════
+     İSTATİSTİK BARISI
+══════════════════════════════ -->
+<section class="section" style="padding-top: 3rem; padding-bottom: 3rem;">
+    <div class="container">
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="num">2022</span>
+                <span class="lbl">Kuruluş Yılı</span>
+            </div>
+            <div class="stat-item">
+                <span class="num">30+</span>
+                <span class="lbl">Aktif Üye</span>
+            </div>
+            <div class="stat-item">
+                <span class="num">2</span>
+                <span class="lbl">Tamamlanan Platform</span>
+            </div>
+            <div class="stat-item">
+                <span class="num">5+</span>
+                <span class="lbl">Yarışma Katılımı</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════
+     HAKKIMIZDA
+══════════════════════════════ -->
+<section class="section alt">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-text">
+                <p class="section-label">Kimiz?</p>
+                <h2 class="section-title">Bir kulüpten fazlası,<br>gerçek bir mühendislik ekibi</h2>
+                <p style="color: var(--text-soft); line-height: 1.8; margin-bottom: 1rem;">
+                    Derin Mavi, Yıldız Teknik Üniversitesi bünyesinde faaliyet gösteren bir otonom sistemler kulübüdür.
+                    Makine, elektrik, yazılım ve kontrol gibi farklı disiplinlerden gelen öğrenciler bir araya gelerek
+                    gerçek mühendislik problemleri üzerinde çalışır.
+                </p>
+                <p style="color: var(--text-soft); line-height: 1.8;">
+                    Amacımız yalnızca yarışmalara katılmak değil; analiz, tasarım, üretim ve test döngülerini uçtan uca
+                    yönetebilen, sahaya hazır mühendisler yetiştirmektir.
+                </p>
+            </div>
+            <div class="about-cards">
+                <div class="about-card">
+                    <h4>🎯 Vizyonumuz</h4>
+                    <p>Türkiye'nin otonom sistem ekosistemine sürdürülebilir katkı sağlayan, ulusal ve uluslararası
+                        ölçekte rekabetçi bir mühendislik kulübü olmak.</p>
+                </div>
+                <div class="about-card">
+                    <h4>🚀 Misyonumuz</h4>
+                    <p>Analitik düşünebilen, takım çalışmasına yatkın ve teknik üretim kültürünü benimseyen genç
+                        mühendisler yetiştirmek.</p>
+                </div>
+                <div class="about-card">
+                    <h4>🤝 Neden Derin Mavi?</h4>
+                    <p>Gerçek projelerde sahada deneyim kazanmak, disiplinler arası ekip kültürü ve güçlü bir mezun
+                        ağına dahil olmak için bize katıl.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════
+     ODAK ALANLARI
+══════════════════════════════ -->
+<section class="section">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <p class="section-label">Ne yapıyoruz?</p>
+            <h2 class="section-title">Odak Alanlarımız</h2>
+            <p class="section-sub">Su altından havaya, günümüzün en kritik otonom sistem teknolojilerini geliştiriyoruz.
+            </p>
+        </div>
+        <div class="focus-grid">
+            <div class="focus-card">
+                <span class="focus-icon">🤿</span>
+                <h3>İnsansız Su Altı Aracı</h3>
+                <p>Otonom rota takibi, sensör füzyonu ve modüler görev mimarisiyle donatılmış su altı keşif platformu.
+                </p>
+            </div>
+            <div class="focus-card">
+                <span class="focus-icon">🎯</span>
+                <h3>Hava Savunma Sistemi</h3>
+                <p>Görüntü işleme destekli hedef analizi ve yüksek hızlı karar döngüsüyle çalışan savunma platformu.</p>
+            </div>
+            <div class="focus-card">
+                <span class="focus-icon">🛸</span>
+                <h3>İHA Platformu</h3>
+                <p>Uzun menzil görev planlama ve yapay zeka destekli otonom karar mekanizmasına sahip hava aracı.
+                    (Geliştirme aşamasında)</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<style>
+    /* ── Label üstlük ── */
+    .section-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    /* ── Hero pills ── */
+    .hero-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 2rem;
+    }
+
+    /* ── CTA box ── */
+    .cta-box {
+        background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card2) 100%);
+        border: 1px solid var(--border-str);
+        border-radius: 24px;
+        padding: 3.5rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-box::before {
+        content: '';
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 200px;
+        height: 200px;
+        background: var(--accent-glow);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .cta-title {
+        font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+        font-weight: 900;
+        color: var(--text-strong);
+        margin-bottom: 0.6rem;
+    }
+
+    .cta-text {
+        color: var(--text-soft);
+        max-width: 50ch;
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    .cta-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 760px) {
+        .cta-box {
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .cta-actions {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Projeyi Düzenle | Admin{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container" style="max-width: 800px;">
+        
+        <div class="duzenle-header">
+            <a href="{{ url_for('admin') }}" class="btn-ghost" style="padding: 0.4rem 0.9rem; font-size: 0.85rem;">← Geri Dön</a>
+            <h1 class="page-title" style="margin-top: 1.5rem;">Projeyi Düzenle</h1>
+        </div>
+
+        <div class="duzenle-card">
+            <form method="POST" enctype="multipart/form-data" action="{{ url_for('duzenle', id=proje.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label>Proje Başlığı *</label>
+                        <input type="text" name="baslik" value="{{ proje.baslik }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Yıl</label>
+                        <input type="number" name="yil" value="{{ proje.yil }}" min="2000" max="2100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Resim Değiştir (İsteğe Bağlı)</label>
+                        <input type="file" name="resim" accept="image/png, image/jpeg, image/jpg, image/webp">
+                        <small style="display:block; margin-top:0.4rem; color:var(--text-soft);">
+                            Mevcut: <strong>{{ proje.resim }}</strong>
+                        </small>
+                    </div>
+                    
+                    <div class="form-group full">
+                        <label>Proje Açıklaması *</label>
+                        <textarea name="aciklama" rows="4" required>{{ proje.aciklama }}</textarea>
+                    </div>
+                    
+                    <div class="form-group full">
+                        <label>Teknik Özellikler (Her satıra bir özellik)</label>
+                        <textarea name="ozellikler" rows="5" placeholder="Sensör füzyonu&#10;Otonom uçuş algoritmaları">{{ proje.ozellikler }}</textarea>
+                    </div>
+
+                    <div class="form-group full form-actions">
+                        <button type="submit" class="btn-primary" style="width: 100%; padding: 1rem; font-size: 1rem;">
+                            💾 Değişiklikleri Kaydet
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<style>
+/* ── Admin Edit Sayfası CSS ── */
+.duzenle-header {
+    margin-bottom: 2rem;
+}
+
+.duzenle-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-str);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: var(--shadow-card);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group.full { grid-column: 1 / -1; }
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-strong);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    color: var(--text-strong);
+    border-radius: 12px;
+    padding: 0.8rem 1rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.form-group input[type="file"] {
+    padding: 0.6rem;
+    color: var(--text-soft);
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button {
+    background: var(--bg-card2);
+    border: 1px solid var(--border-str);
+    border-radius: 8px;
+    padding: 6px 12px;
+    color: var(--text-strong);
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 1rem;
+    transition: background 0.2s;
+}
+
+.form-group input[type="file"]::-webkit-file-upload-button:hover {
+    background: var(--border);
+}
+
+.form-actions {
+    margin-top: 1rem;
+}
+
+@media (max-width: 650px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .duzenle-card { padding: 1.5rem; }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}İletişim | Derin Mavi{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container two-col">
+        <div>
+            <h1 class="page-title">Bize Ulaşın</h1>
+            <p>Projeler, iş birlikleri veya topluluk katılımı için bizimle iletişime geçebilirsiniz.</p>
+            <div class="contact-list">
+                <p><strong>Konum:</strong> Yıldız Teknik Üniversitesi, İstanbul</p>
+                <p><strong>E-posta:</strong> iletisim@derinmavi.com</p>
+                <p><strong>Instagram:</strong> @derinmavitech</p>
+                <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/company/derinmavitech" target="_blank" style="color:var(--accent);">linkedin.com/derinmavitech</a></p>
+            </div>
+        </div>
+        <form class="contact-form" id="contact-form">
+            <label for="ad">Ad Soyad</label>
+            <input id="ad" type="text" required>
+            <label for="eposta">E-posta</label>
+            <input id="eposta" type="email" required>
+            <label for="mesaj">Mesaj</label>
+            <textarea id="mesaj" rows="5" required></textarea>
+            <button type="submit" class="btn-primary" id="gonder-btn">Gönder</button>
+            <p class="form-success" id="form-success" style="display:none; color:#10b981; margin-top:1rem; font-weight:700;">Mesajınız başarıyla iletildi, teşekkürler!</p>
+            <p class="form-error" id="form-error" style="display:none; color:#ef4444; margin-top:1rem; font-weight:700;">Bir hata oluştu. Lütfen tekrar deneyin.</p>
+        </form>
+    </div>
+</section>
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('gonder-btn');
+    const successMsg = document.getElementById('form-success');
+    const errorMsg = document.getElementById('form-error');
+
+    btn.disabled = true;
+    btn.textContent = 'Gönderiliyor...';
+    successMsg.style.display = 'none';
+    errorMsg.style.display = 'none';
+
+    const data = {
+        ad_soyad: document.getElementById('ad').value,
+        eposta: document.getElementById('eposta').value,
+        mesaj: document.getElementById('mesaj').value
+    };
+
+    try {
+        const res = await fetch('/api/iletisim', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        if (result.ok) {
+            successMsg.style.display = 'block';
+            document.getElementById('contact-form').reset();
+        } else {
+            errorMsg.textContent = result.error || 'Bir hata oluştu.';
+            errorMsg.style.display = 'block';
+        }
+    } catch (err) {
+        errorMsg.style.display = 'block';
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Gönder';
+    }
+});
+</script>
+{% endblock %}

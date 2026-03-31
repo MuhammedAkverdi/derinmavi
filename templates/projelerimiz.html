@@ -1,0 +1,394 @@
+{% extends 'base.html' %}
+
+{% block title %}Projelerimiz | Derin Mavi{% endblock %}
+
+{% block content %}
+<!-- Three.js + STL Loader (yerel dosyalar) -->
+<script src="{{ url_for('static', filename='js/three.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/STLLoader.js') }}"></script>
+<script src="{{ url_for('static', filename='js/OrbitControls.js') }}"></script>
+
+<section class="section stl-section">
+    <div class="container">
+        <h1 class="page-title">Projelerimiz</h1>
+        <p class="page-sub-desc">3D modellerimizi döndürerek inceleyebilirsiniz. Fare ile sürükleyin, kaydırın veya yakınlaştırın.</p>
+
+        <!-- ─── HAVA SAVUNMA ─── -->
+        <div class="stl-project-card" id="card-hava">
+            <div class="stl-viewer-wrap">
+                <canvas id="canvas-hava" class="stl-canvas"></canvas>
+                <div class="stl-loading" id="loading-hava">
+                    <div class="stl-spinner"></div>
+                    <span>Model yükleniyor…</span>
+                </div>
+                <div class="stl-hint">🖱 Döndür · Kaydır · Yakınlaştır</div>
+            </div>
+            <div class="stl-info">
+                <span class="stl-badge">2026</span>
+                <h2 class="stl-title">Hava Savunma Sistemi</h2>
+                <p class="stl-desc">Akıllı hedef takip algoritmaları ve hızlı karar mekanizmasıyla sahada aktif savunma yaklaşımı sunan, görüntü işleme destekli özerk platform.</p>
+                <div class="stl-specs">
+                    <h3>Teknik Özellikler</h3>
+                    <ul>
+                        <li><span class="spec-icon">🎯</span> Görüntü işleme destekli hedef analizi</li>
+                        <li><span class="spec-icon">⚡</span> Yüksek hızlı karar döngüsü</li>
+                        <li><span class="spec-icon">🌐</span> Dağıtık kontrol altyapısı</li>
+                        <li><span class="spec-icon">🧪</span> Simülasyon destekli test süreci</li>
+                        <li><span class="spec-icon">🔒</span> Güvenli haberleşme protokolleri</li>
+                    </ul>
+                </div>
+                <div class="stl-tags">
+                    <span class="tag">Otonom</span>
+                    <span class="tag">Savunma</span>
+                    <span class="tag">Görüntü İşleme</span>
+                    <span class="tag">Yapay Zeka</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── İNSANSIZ SU ALTI ─── -->
+        <div class="stl-project-card" id="card-su">
+            <div class="stl-viewer-wrap">
+                <canvas id="canvas-su" class="stl-canvas"></canvas>
+                <div class="stl-loading" id="loading-su">
+                    <div class="stl-spinner"></div>
+                    <span>Model yükleniyor…</span>
+                </div>
+                <div class="stl-hint">🖱 Döndür · Kaydır · Yakınlaştır</div>
+            </div>
+            <div class="stl-info">
+                <span class="stl-badge">2026</span>
+                <h2 class="stl-title">İnsansız Su Altı Aracı</h2>
+                <p class="stl-desc">Otonom görev kabiliyetine sahip, sensör füzyonu ile su altı keşif ve analiz yapan, derinlikleri haritalandıran ileri teknoloji platform.</p>
+                <div class="stl-specs">
+                    <h3>Teknik Özellikler</h3>
+                    <ul>
+                        <li><span class="spec-icon">🗺️</span> Otonom rota takibi</li>
+                        <li><span class="spec-icon">📊</span> Gerçek zamanlı telemetri</li>
+                        <li><span class="spec-icon">🔭</span> Derinlik ve engel algılama</li>
+                        <li><span class="spec-icon">🧩</span> Modüler görev mimarisi</li>
+                        <li><span class="spec-icon">🤿</span> Yüksek basınç dayanımlı gövde</li>
+                    </ul>
+                </div>
+                <div class="stl-tags">
+                    <span class="tag">Otonom</span>
+                    <span class="tag">Su Altı</span>
+                    <span class="tag">Keşif</span>
+                    <span class="tag">Sensör Füzyonu</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<style>
+.stl-section { padding: 4rem 0 4rem; }
+
+.page-sub-desc {
+    color: var(--text-soft);
+    margin-bottom: 3rem;
+    font-size: 0.97rem;
+}
+
+.stl-project-card {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-str);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.stl-project-card:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-3px);
+    border-color: var(--border-str);
+}
+
+/* ─── Viewer ─── */
+.stl-viewer-wrap {
+    position: relative;
+    height: 500px;
+    background: radial-gradient(ellipse at 40% 50%, #0d2240 0%, #060e1a 70%);
+    border-right: 1px solid var(--border-str);
+}
+
+.stl-canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+.stl-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: rgba(6, 14, 26, 0.85);
+    backdrop-filter: blur(4px);
+    color: #7dc4ff;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    z-index: 10;
+    transition: opacity 0.5s ease;
+}
+
+.stl-loading.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.stl-spinner {
+    width: 44px;
+    height: 44px;
+    border: 3px solid #1e3a55;
+    border-top-color: #4fa8ff;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.stl-hint {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 22, 38, 0.75);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(100, 160, 220, 0.2);
+    color: #7aabce;
+    font-size: 0.78rem;
+    padding: 5px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+/* ─── Info Panel ─── */
+.stl-info {
+    padding: 2rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+    background: var(--bg-card);
+}
+
+.stl-badge {
+    display: inline-block;
+    background: var(--accent-glow);
+    border: 1px solid var(--border-str);
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 3px 12px;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.stl-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-strong);
+    line-height: 1.2;
+    margin: 0;
+}
+
+.stl-desc {
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    margin: 0;
+}
+
+.stl-specs h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+.stl-specs ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.stl-specs li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text);
+    font-size: 0.88rem;
+    padding: 0.5rem 0.7rem;
+    background: var(--bg-card2, rgba(255,255,255,0.03));
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.stl-specs li:hover {
+    background: var(--accent-glow);
+    border-color: var(--border-str);
+}
+
+.spec-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.stl-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.tag {
+    background: var(--accent-glow);
+    border: 1px solid var(--border-str);
+    color: var(--link);
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .stl-project-card {
+        grid-template-columns: 1fr;
+    }
+    .stl-viewer-wrap {
+        height: 360px;
+        border-right: none;
+        border-bottom: 1px solid var(--border-str);
+    }
+    .stl-info {
+        max-height: none;
+    }
+}
+</style>
+
+<script>
+(function() {
+    function initViewer(canvasId, loadingId, stlUrl, color) {
+        const canvas  = document.getElementById(canvasId);
+        const loading = document.getElementById(loadingId);
+        const wrap    = canvas.parentElement;
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.shadowMap.enabled = true;
+
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 5000);
+        camera.position.set(0, 0, 300);
+
+        /* Lights */
+        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+        const dir1 = new THREE.DirectionalLight(0x88ccff, 1.4);
+        dir1.position.set(200, 300, 200);
+        scene.add(dir1);
+        const dir2 = new THREE.DirectionalLight(0x2244aa, 0.6);
+        dir2.position.set(-200, -100, -100);
+        scene.add(dir2);
+        const point = new THREE.PointLight(0x3388ff, 0.8, 1000);
+        point.position.set(0, 200, 200);
+        scene.add(point);
+
+        /* Controls */
+        const controls = new THREE.OrbitControls(camera, canvas);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.08;
+        controls.autoRotate    = true;
+        controls.autoRotateSpeed = 1.2;
+        controls.enablePan = true;
+
+        /* Load STL */
+        const loader = new THREE.STLLoader();
+        loader.load(stlUrl, function(geometry) {
+            geometry.computeVertexNormals();
+            geometry.center();
+
+            const mat = new THREE.MeshPhongMaterial({
+                color:     color,
+                specular:  0x88ccff,
+                shininess: 60,
+                flatShading: false
+            });
+            const mesh = new THREE.Mesh(geometry, mat);
+
+            /* Scale to fit */
+            const box  = new THREE.Box3().setFromObject(mesh);
+            const size = box.getSize(new THREE.Vector3());
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const scale  = 180 / maxDim;
+            mesh.scale.setScalar(scale);
+            mesh.castShadow = true;
+
+            scene.add(mesh);
+
+            /* Fit camera */
+            const fov = camera.fov * Math.PI / 180;
+            camera.position.z = (180 / 2) / Math.tan(fov / 2) * 1.6;
+            camera.updateProjectionMatrix();
+
+            loading.classList.add('hidden');
+        }, undefined, function(err) {
+            console.error('STL yükleme hatası:', err);
+            loading.querySelector('span').textContent = 'Model yüklenemedi.';
+        });
+
+        /* Resize */
+        function resize() {
+            const w = wrap.clientWidth;
+            const h = wrap.clientHeight;
+            renderer.setSize(w, h, false);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        /* Animate */
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+    }
+
+    /* Wait for Three.js to be ready (it's loaded synchronously above) */
+    window.addEventListener('DOMContentLoaded', function() {
+        initViewer(
+            'canvas-hava', 'loading-hava',
+            "{{ url_for('static', filename='stl/HAVA_SAVUNMA.STL') }}",
+            0x2a7fc0
+        );
+        initViewer(
+            'canvas-su', 'loading-su',
+            "{{ url_for('static', filename='stl/SU_ALTI.STL') }}",
+            0x2a7fc0
+        );
+    });
+})();
+</script>
+{% endblock %}

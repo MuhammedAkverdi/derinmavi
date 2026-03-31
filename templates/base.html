@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Derin Mavi{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='uploads/logo.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-row">
+            <a class="brand" href="{{ url_for('ana_sayfa') }}">
+                <img src="{{ url_for('static', filename='uploads/logo.png') }}" alt="Derin Mavi Logo" class="brand-logo">
+                DERİN MAVİ
+            </a>
+            <nav class="nav" id="site-nav">
+                <a href="{{ url_for('ana_sayfa') }}">Anasayfa</a>
+                <a href="{{ url_for('takimimiz') }}">Takımımız</a>
+                <a href="{{ url_for('projelerimiz') }}">Projelerimiz</a>
+                <a href="{{ url_for('basarilarimiz') }}">Başarılarımız</a>
+                <a href="{{ url_for('iletisim') }}">İletişim</a>
+            </nav>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Tema değiştir" title="Açık/Koyu tema">
+                    <span class="theme-icon">☀️</span>
+                </button>
+                <button class="nav-toggle" id="nav-toggle" aria-label="Menü" aria-expanded="false">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <div class="footer-brand">
+                    <img src="{{ url_for('static', filename='uploads/logo.png') }}" alt="Derin Mavi" class="footer-logo">
+                    <h4>Derin Mavi</h4>
+                </div>
+                <p>Yıldız Teknik Üniversitesi</p>
+                <p>Ar-Ge ve Teknoloji Topluluğu</p>
+            </div>
+            <div>
+                <h4>Hızlı Menü</h4>
+                <a href="{{ url_for('takimimiz') }}">Ekibimiz</a>
+                <a href="{{ url_for('projelerimiz') }}">Projelerimiz</a>
+                <a href="{{ url_for('basarilarimiz') }}">Başarılarımız</a>
+                <!-- <a href="{{ url_for('sponsorlarimiz') }}">Sponsorlarımız</a> -->
+            </div>
+            <div>
+                <h4>İletişim</h4>
+                <p>Yıldız Teknik Üniversitesi</p>
+                <p>İstanbul / Türkiye</p>
+                <p>iletisim@derinmavi.com</p>
+            </div>
+        </div>
+        <div class="container footer-bottom">© 2026 Derin Mavi. Tüm hakları saklıdır.</div>
+    </footer>
+
+    <script>
+    (function(){
+        const btn  = document.getElementById('theme-toggle');
+        const icon = btn.querySelector('.theme-icon');
+        const html = document.documentElement;
+        const saved = localStorage.getItem('dm-theme') || 'dark';
+        html.setAttribute('data-theme', saved);
+        icon.textContent = saved === 'dark' ? '☀️' : '🌙';
+        btn.addEventListener('click', function(){
+            const cur  = html.getAttribute('data-theme');
+            const next = cur === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('dm-theme', next);
+            icon.textContent = next === 'dark' ? '☀️' : '🌙';
+        });
+    })();
+    </script>
+</body>
+</html>
