@@ -153,6 +153,8 @@ img { display:block; }
     display: flex;
     gap: 0.3rem;
     align-items: center;
+    margin-left: auto;
+    margin-right: 2.5rem;
 }
 
 .nav a {
@@ -822,6 +824,7 @@ p { color: var(--text); }
         top: 68px;
         left: 0;
         right: 0;
+        margin-right: 0;
         display: none;
         flex-direction: column;
         padding: 0.8rem 1rem 1rem;
