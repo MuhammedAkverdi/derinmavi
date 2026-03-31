@@ -6,7 +6,9 @@ from flask_wtf import CSRFProtect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv
-import libsql_client  # <-- Turso bulut veritabanı motoru eklendi
+import libsql_client
+import cloudinary
+import cloudinary.uploader
 
 load_dotenv()
 
@@ -18,7 +20,7 @@ if not _secret_key:
 app.secret_key = _secret_key
 
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
-app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5 MB dosya boyutu limiti
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5 MB
 app.config['WTF_CSRF_ENABLED'] = True
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
@@ -35,13 +37,18 @@ _admin_password = os.environ.get('ADMIN_PASSWORD')
 if not _admin_password:
     raise ValueError("ADMIN_PASSWORD ortam değişkeni tanımlı değil. .env dosyasını kontrol edin.")
 
+# ── CLOUDINARY BULUT AYARLARI ──────────────────────────────
+cloudinary.config(
+  cloud_name = os.environ.get('CLOUDINARY_CLOUD_NAME'),
+  api_key = os.environ.get('CLOUDINARY_API_KEY'),
+  api_secret = os.environ.get('CLOUDINARY_API_SECRET')
+)
 
 # ── TURSO BULUT BAĞLANTISI ──────────────────────────────
 def db_connect():
     url = os.environ.get('TURSO_DATABASE_URL')
     token = os.environ.get('TURSO_AUTH_TOKEN')
     
-    # Vercel'de URL varsa buluta bağlan, yoksa local test için bilgisayardaki dosyaya bağlan
     if url and token:
         return libsql_client.create_client_sync(url=url, auth_token=token)
     else:
@@ -62,16 +69,14 @@ def init_db():
                       yil INTEGER,
                       ozellikler TEXT DEFAULT '')''')
 
-        # libsql_client'ta satırlara liste gibi erişilir
         pragmas = conn.execute('PRAGMA table_info(projeler)').rows
-        mevcut_kolonlar = {row[1] for row in pragmas}  # 1. index 'name' kolonudur
+        mevcut_kolonlar = {row[1] for row in pragmas} 
         
         if 'yil' not in mevcut_kolonlar:
             conn.execute('ALTER TABLE projeler ADD COLUMN yil INTEGER')
         if 'ozellikler' not in mevcut_kolonlar:
             conn.execute("ALTER TABLE projeler ADD COLUMN ozellikler TEXT DEFAULT ''")
 
-        # Takım üyeleri tablosu
         conn.execute('''CREATE TABLE IF NOT EXISTS uyeler
                      (id INTEGER PRIMARY KEY AUTOINCREMENT,
                       isim TEXT NOT NULL,
@@ -80,50 +85,18 @@ def init_db():
                       linkedin TEXT DEFAULT '',
                       foto TEXT DEFAULT '')''')
 
-        # Sponsorlar tablosu
         conn.execute('''CREATE TABLE IF NOT EXISTS sponsorlar
                      (id INTEGER PRIMARY KEY AUTOINCREMENT,
                       isim TEXT NOT NULL,
                       kademe TEXT NOT NULL,
                       logo TEXT DEFAULT '')''')
 
-        # İletişim mesajları tablosu
         conn.execute('''CREATE TABLE IF NOT EXISTS iletisim_mesajlari
                      (id INTEGER PRIMARY KEY AUTOINCREMENT,
                       ad_soyad TEXT NOT NULL,
                       eposta TEXT NOT NULL,
                       mesaj TEXT NOT NULL,
                       tarih TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
-
-        # Başlangıç verileri kontrolü
-        rs = conn.execute('SELECT COUNT(*) as toplam FROM projeler')
-        proje_sayisi = rs.rows[0][0]
-        
-        if proje_sayisi == 0:
-            conn.execute(
-                '''INSERT INTO projeler (baslik, aciklama, resim, yil, ozellikler)
-                   VALUES (?, ?, ?, ?, ?)''',
-                (
-                    'İnsansız Denizaltı',
-                    'Otonom görev kabiliyetine sahip, sensör füzyonu ile su altı keşif ve analiz yapan platform.',
-                    'c358d37142044c49aaf9b5934e0d5538.jpg',
-                    2026,
-                    'Otonom rota takibi\nGerçek zamanlı telemetri\nDerinlik ve engel algılama\nModüler görev mimarisi'
-                )
-            )
-            conn.execute(
-                '''INSERT INTO projeler (baslik, aciklama, resim, yil, ozellikler)
-                   VALUES (?, ?, ?, ?, ?)''',
-                (
-                    'Hava Savunma',
-                    'Akıllı hedef takip algoritmaları ve hızlı karar mekanizmasıyla sahada aktif savunma yaklaşımı.',
-                    'F65oe61WcAEmJvr.jpg',
-                    2026,
-                    'Görüntü işleme destekli hedef analizi\nYüksek hızlı karar döngüsü\nDağıtık kontrol altyapısı\nSimülasyon destekli test süreci'
-                )
-            )
-        # conn.commit() kaldırıldı, çünkü libsql_client işlemleri otomatik uygular.
-
 
 init_db()
 
@@ -170,7 +143,6 @@ def takimimiz():
     return render_template('takimimiz.html', uyeler=uyeler, admin=session.get('giris_yapildi', False))
 
 
-# ── Üye API route'ları (sadece admin) ──────────────────────────────
 @app.route('/api/uye/ekle', methods=['POST'])
 def uye_ekle():
     if not session.get('giris_yapildi'):
@@ -182,24 +154,23 @@ def uye_ekle():
     if not isim or not gorev or not dept:
         return jsonify({'ok': False, 'error': 'Eksik alan'}), 400
 
-    foto_adi = ''
+    foto_url = ''
     foto_dosya = request.files.get('foto')
     if foto_dosya and foto_dosya.filename and allowed_file(foto_dosya.filename):
-        ext = foto_dosya.filename.rsplit('.', 1)[1].lower()
-        foto_adi = uuid.uuid4().hex + '.' + ext
-        # Vercel Salt-Okunur Koruması (Hata vermesini önler)
         try:
-            foto_dosya.save(os.path.join(app.config['UPLOAD_FOLDER'], foto_adi))
-        except Exception:
-            pass 
+            # Resmi Cloudinary'e yükle
+            upload_result = cloudinary.uploader.upload(foto_dosya)
+            foto_url = upload_result.get('secure_url')
+        except Exception as e:
+            print("Cloudinary Yükleme Hatası:", e)
 
     with db_connect() as conn:
         rs = conn.execute(
             'INSERT INTO uyeler (isim, gorev, departman, linkedin, foto) VALUES (?,?,?,?,?)',
-            (isim, gorev, dept, linkedin, foto_adi)
+            (isim, gorev, dept, linkedin, foto_url)
         )
         new_id = rs.last_insert_rowid
-    return jsonify({'ok': True, 'id': new_id, 'foto': foto_adi})
+    return jsonify({'ok': True, 'id': new_id, 'foto': foto_url})
 
 
 @app.route('/api/uye/guncelle/<int:uid>', methods=['POST'])
@@ -210,28 +181,26 @@ def uye_guncelle(uid):
     gorev   = request.form.get('gorev', '').strip()
     dept    = request.form.get('departman', '').strip()
     linkedin = request.form.get('linkedin', '').strip()
-    if not isim or not gorev or not dept:
-        return jsonify({'ok': False, 'error': 'Eksik alan'}), 400
 
     with db_connect() as conn:
         mevcut = conn.execute('SELECT foto FROM uyeler WHERE id=?', (uid,)).rows
         if not mevcut:
             return jsonify({'ok': False, 'error': 'Bulunamadı'}), 404
-        foto_adi = mevcut[0]['foto']
+            
+        foto_url = mevcut[0]['foto']
         foto_dosya = request.files.get('foto')
         if foto_dosya and foto_dosya.filename and allowed_file(foto_dosya.filename):
-            ext = foto_dosya.filename.rsplit('.', 1)[1].lower()
-            foto_adi = uuid.uuid4().hex + '.' + ext
             try:
-                foto_dosya.save(os.path.join(app.config['UPLOAD_FOLDER'], foto_adi))
-            except Exception:
-                pass
+                upload_result = cloudinary.uploader.upload(foto_dosya)
+                foto_url = upload_result.get('secure_url')
+            except Exception as e:
+                print("Cloudinary Yükleme Hatası:", e)
                 
         conn.execute(
             'UPDATE uyeler SET isim=?, gorev=?, departman=?, linkedin=?, foto=? WHERE id=?',
-            (isim, gorev, dept, linkedin, foto_adi, uid)
+            (isim, gorev, dept, linkedin, foto_url, uid)
         )
-    return jsonify({'ok': True, 'foto': foto_adi})
+    return jsonify({'ok': True, 'foto': foto_url})
 
 
 @app.route('/api/uye/sil/<int:uid>', methods=['POST'])
@@ -243,7 +212,6 @@ def uye_sil(uid):
     return jsonify({'ok': True})
 
 
-# ── İletişim API route'ları ──────────────────────────────
 @app.route('/api/iletisim', methods=['POST'])
 @limiter.limit("5 per minute")
 def iletisim_post():
@@ -306,20 +274,19 @@ def admin():
             yil = int(yil_raw) if yil_raw.isdigit() else None
             ozellikler = request.form.get('ozellikler', '').strip()
             resim_dosyasi = request.files.get('resim')
-            resim_adi = ''
+            resim_url = ''
 
             if resim_dosyasi and allowed_file(resim_dosyasi.filename):
-                ext = resim_dosyasi.filename.rsplit('.', 1)[1].lower()
-                resim_adi = uuid.uuid4().hex + '.' + ext
                 try:
-                    resim_dosyasi.save(os.path.join(app.config['UPLOAD_FOLDER'], resim_adi))
-                except Exception:
-                    pass
+                    upload_result = cloudinary.uploader.upload(resim_dosyasi)
+                    resim_url = upload_result.get('secure_url')
+                except Exception as e:
+                    print("Cloudinary Yükleme Hatası:", e)
             
             with db_connect() as conn:
                 conn.execute(
                     'INSERT INTO projeler (baslik, aciklama, resim, yil, ozellikler) VALUES (?, ?, ?, ?, ?)',
-                    (baslik, aciklama, resim_adi, yil, ozellikler)
+                    (baslik, aciklama, resim_url, yil, ozellikler)
                 )
             return redirect(url_for('admin'))
 
@@ -340,7 +307,6 @@ def admin():
     return render_template('admin.html', projeler=projeler, mesajlar=mesajlar)
 
 
-# Proje Silme Rotası
 @app.route('/sil/<int:id>', methods=['POST'])
 def sil(id):
     if not session.get('giris_yapildi'):
@@ -351,7 +317,6 @@ def sil(id):
     return redirect(url_for('admin'))
 
 
-# Proje Düzenleme Rotası
 @app.route('/duzenle/<int:id>', methods=['GET', 'POST'])
 @limiter.limit("20 per minute")
 def duzenle(id):
@@ -371,18 +336,17 @@ def duzenle(id):
             if not mevcut:
                 return redirect(url_for('admin'))
 
-            resim_adi = mevcut[0]['resim']
+            resim_url = mevcut[0]['resim']
             if resim_dosyasi and resim_dosyasi.filename and allowed_file(resim_dosyasi.filename):
-                ext = resim_dosyasi.filename.rsplit('.', 1)[1].lower()
-                resim_adi = uuid.uuid4().hex + '.' + ext
                 try:
-                    resim_dosyasi.save(os.path.join(app.config['UPLOAD_FOLDER'], resim_adi))
-                except Exception:
-                    pass
+                    upload_result = cloudinary.uploader.upload(resim_dosyasi)
+                    resim_url = upload_result.get('secure_url')
+                except Exception as e:
+                    print("Cloudinary Yükleme Hatası:", e)
 
             conn.execute(
                 'UPDATE projeler SET baslik = ?, aciklama = ?, resim = ?, yil = ?, ozellikler = ? WHERE id = ?',
-                (baslik, aciklama, resim_adi, yil, ozellikler, id)
+                (baslik, aciklama, resim_url, yil, ozellikler, id)
             )
         return redirect(url_for('admin'))
 
@@ -411,7 +375,5 @@ def logout():
 
 
 if __name__ == '__main__':
-    if not os.path.exists(app.config['UPLOAD_FOLDER']):
-        os.makedirs(app.config['UPLOAD_FOLDER'])
     debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
     app.run(debug=debug_mode)
