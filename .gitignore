@@ -2,7 +2,6 @@
 *.pyc
 __pycache__/
 database.db
-static/uploads/*
 !static/uploads/.gitkeep
 *.sqlite3
 *.db
