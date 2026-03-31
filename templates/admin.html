@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="tr" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Paneli | Derin Mavi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --bg:        #0d1523;
-            --bg-card:   #111d2e;
-            --bg-card2:  #0f1929;
-            --border:    rgba(255,255,255,0.07);
-            --border-str:rgba(255,255,255,0.13);
-            --text-strong:#f1f5f9;
-            --text-soft:  #8b99ae;
-            --accent:     #2a7fd8;
-            --danger:     #ef4444;
-            --success:    #10b981;
-            --shadow:     0 12px 32px rgba(0,0,0,0.4);
+            --bg: #0d1523;
+            --bg-card: #111d2e;
+            --bg-card2: #0f1929;
+            --border: rgba(255, 255, 255, 0.07);
+            --border-str: rgba(255, 255, 255, 0.13);
+            --text-strong: #f1f5f9;
+            --text-soft: #8b99ae;
+            --accent: #2a7fd8;
+            --danger: #ef4444;
+            --success: #10b981;
+            --shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -29,449 +36,852 @@
         }
 
         /* ── Layout ── */
-        .admin-layout { display: flex; min-height: 100vh; }
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
 
         /* ── Sidebar ── */
         .sidebar {
-            width: 240px; flex-shrink: 0;
+            width: 240px;
+            flex-shrink: 0;
             background: var(--bg-card);
             border-right: 1px solid var(--border);
-            display: flex; flex-direction: column;
+            display: flex;
+            flex-direction: column;
             padding: 0;
-            position: sticky; top: 0; height: 100vh;
+            position: sticky;
+            top: 0;
+            height: 100vh;
         }
+
         .sidebar-brand {
-            display: flex; align-items: center; gap: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
             padding: 1.4rem 1.4rem 1rem;
             border-bottom: 1px solid var(--border);
         }
-        .sidebar-brand img { width: 32px; height: 32px; object-fit: contain; }
-        .sidebar-brand span { font-size: 0.95rem; font-weight: 900; letter-spacing: 0.08em; color: var(--text-strong); }
 
-        .sidebar-nav { flex: 1; padding: 1rem 0.6rem; display: flex; flex-direction: column; gap: 2px; }
-        .nav-item {
-            display: flex; align-items: center; gap: 0.6rem;
-            padding: 0.6rem 0.9rem; border-radius: 10px;
-            text-decoration: none; color: var(--text-soft);
-            font-size: 0.88rem; font-weight: 600;
-            transition: all 0.18s; cursor: pointer; border: none; background: none;
-            font-family: inherit; text-align: left; width: 100%;
+        .sidebar-brand img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
         }
-        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text-strong); }
-        .nav-item.active { background: rgba(42,127,216,0.15); color: var(--accent); }
-        .nav-icon { font-size: 1.1rem; width: 22px; text-align: center; }
 
-        .sidebar-section-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; color: var(--text-soft); text-transform: uppercase; padding: 0.8rem 0.9rem 0.3rem; }
+        .sidebar-brand span {
+            font-size: 0.95rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: var(--text-strong);
+        }
 
-        .sidebar-bottom { padding: 1rem 0.6rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
+        .sidebar-nav {
+            flex: 1;
+            padding: 1rem 0.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 0.9rem;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-soft);
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.18s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+            text-align: left;
+            width: 100%;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-strong);
+        }
+
+        .nav-item.active {
+            background: rgba(42, 127, 216, 0.15);
+            color: var(--accent);
+        }
+
+        .nav-icon {
+            font-size: 1.1rem;
+            width: 22px;
+            text-align: center;
+        }
+
+        .sidebar-section-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--text-soft);
+            text-transform: uppercase;
+            padding: 0.8rem 0.9rem 0.3rem;
+        }
+
+        .sidebar-bottom {
+            padding: 1rem 0.6rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
 
         /* ── Main ── */
-        .main-content { flex: 1; padding: 2rem 2.5rem; max-width: 900px; }
+        .main-content {
+            flex: 1;
+            padding: 2rem 2.5rem;
+            max-width: 900px;
+        }
 
         /* ── Topbar ── */
-        .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
-        .topbar-title { font-size: 1.5rem; font-weight: 900; color: var(--text-strong); }
-        .topbar-sub { color: var(--text-soft); font-size: 0.88rem; margin-top: 2px; }
-        .admin-status { display: flex; align-items: center; gap: 0.5rem; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.25); border-radius: 99px; padding: 0.35rem 0.9rem; font-size: 0.8rem; font-weight: 700; color: #10b981; }
-        .status-dot { width: 7px; height: 7px; background: #10b981; border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .topbar-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-strong);
+        }
+
+        .topbar-sub {
+            color: var(--text-soft);
+            font-size: 0.88rem;
+            margin-top: 2px;
+        }
+
+        .admin-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 99px;
+            padding: 0.35rem 0.9rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
 
         /* ── Tab panels ── */
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
 
         /* ── Stats ── */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card {
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: 14px; padding: 1.2rem;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
-        .stat-card-label { font-size: 0.75rem; font-weight: 700; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
-        .stat-card-val { font-size: 1.9rem; font-weight: 900; color: var(--text-strong); }
-        .stat-card-sub { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.2rem; }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.2rem;
+        }
+
+        .stat-card-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-soft);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-card-val {
+            font-size: 1.9rem;
+            font-weight: 900;
+            color: var(--text-strong);
+        }
+
+        .stat-card-sub {
+            font-size: 0.78rem;
+            color: var(--text-soft);
+            margin-top: 0.2rem;
+        }
 
         /* ── Panel card ── */
         .panel-card {
-            background: var(--bg-card); border: 1px solid var(--border);
-            border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
-        .panel-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.3rem; flex-wrap: wrap; gap: 0.5rem; }
-        .panel-card-head h2 { font-size: 1rem; font-weight: 800; color: var(--text-strong); margin: 0; }
+
+        .panel-card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.3rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .panel-card-head h2 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-strong);
+            margin: 0;
+        }
 
         /* ── Form ── */
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
-        .form-group { margin-bottom: 0.1rem; }
-        .form-group.full { grid-column: 1 / -1; }
-        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-soft); margin-bottom: 0.35rem; }
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%; border: 1.5px solid rgba(255,255,255,0.1);
-            border-radius: 10px; background: rgba(0,0,0,0.25);
-            color: var(--text-strong); padding: 0.6rem 0.8rem;
-            font-family: inherit; font-size: 0.9rem; outline: none;
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.1rem;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-soft);
+            margin-bottom: 0.35rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.25);
+            color: var(--text-strong);
+            padding: 0.6rem 0.8rem;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
             transition: border-color 0.2s;
         }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(42,127,216,0.15);
+            box-shadow: 0 0 0 3px rgba(42, 127, 216, 0.15);
         }
-        .form-group textarea { resize: vertical; }
-        .form-group input[type="file"] { padding: 0.5rem; color: var(--text-soft); }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-group input[type="file"] {
+            padding: 0.5rem;
+            color: var(--text-soft);
+        }
+
         .form-group input[type="file"]::-webkit-file-upload-button {
-            background: rgba(42,127,216,0.15); border: 1px solid rgba(42,127,216,0.3);
-            border-radius: 6px; padding: 4px 10px; color: var(--accent);
-            font-family: inherit; font-size: 0.82rem; cursor: pointer;
+            background: rgba(42, 127, 216, 0.15);
+            border: 1px solid rgba(42, 127, 216, 0.3);
+            border-radius: 6px;
+            padding: 4px 10px;
+            color: var(--accent);
+            font-family: inherit;
+            font-size: 0.82rem;
+            cursor: pointer;
         }
 
         /* ── Buttons ── */
         .btn-primary {
-            border: none; border-radius: 10px; padding: 0.65rem 1.4rem;
-            cursor: pointer; font-weight: 700; font-family: inherit; font-size: 0.9rem;
+            border: none;
+            border-radius: 10px;
+            padding: 0.65rem 1.4rem;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: inherit;
+            font-size: 0.9rem;
             background: linear-gradient(90deg, #1d5fbf 0%, #2a7fd8 100%);
-            color: #fff; transition: filter 0.2s;
+            color: #fff;
+            transition: filter 0.2s;
         }
-        .btn-primary:hover { filter: brightness(1.08); }
+
+        .btn-primary:hover {
+            filter: brightness(1.08);
+        }
+
         .btn-ghost {
-            border: 1.5px solid var(--border-str); border-radius: 10px;
-            padding: 0.6rem 1.2rem; cursor: pointer;
-            font-weight: 700; font-family: inherit; font-size: 0.88rem;
-            background: transparent; color: var(--text-soft);
-            text-decoration: none; transition: all 0.18s;
+            border: 1.5px solid var(--border-str);
+            border-radius: 10px;
+            padding: 0.6rem 1.2rem;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: inherit;
+            font-size: 0.88rem;
+            background: transparent;
+            color: var(--text-soft);
+            text-decoration: none;
+            transition: all 0.18s;
         }
-        .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-        .btn-danger { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.25); color: #ef4444; border-radius: 7px; padding: 5px 10px; cursor: pointer; font-size: 0.8rem; font-weight: 700; font-family: inherit; }
-        .btn-edit-sm { background: rgba(42,127,216,0.13); border: 1px solid rgba(42,127,216,0.25); color: var(--accent); border-radius: 7px; padding: 5px 10px; cursor: pointer; font-size: 0.8rem; font-weight: 700; font-family: inherit; text-decoration: none; display: inline-block; }
+
+        .btn-ghost:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: #ef4444;
+            border-radius: 7px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: inherit;
+        }
+
+        .btn-edit-sm {
+            background: rgba(42, 127, 216, 0.13);
+            border: 1px solid rgba(42, 127, 216, 0.25);
+            color: var(--accent);
+            border-radius: 7px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-block;
+        }
 
         /* ── Project list ── */
-        .search-row { display: grid; grid-template-columns: 1fr auto; gap: 0.7rem; margin-bottom: 0.8rem; align-items: center; }
-        .count-pill { background: rgba(42,127,216,0.12); border: 1px solid rgba(42,127,216,0.25); border-radius: 99px; padding: 0.35rem 0.9rem; font-size: 0.78rem; font-weight: 700; color: var(--accent); white-space: nowrap; }
-        .project-list { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
-        .project-item {
-            display: flex; align-items: center; gap: 1rem;
-            background: rgba(0,0,0,0.2); border: 1px solid var(--border);
-            border-radius: 12px; padding: 0.9rem 1rem;
+        .search-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.7rem;
+            margin-bottom: 0.8rem;
+            align-items: center;
         }
-        .project-thumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; flex-shrink: 0; background: rgba(255,255,255,0.05); }
-        .project-name { font-weight: 700; color: var(--text-strong); font-size: 0.9rem; }
-        .project-year { font-size: 0.78rem; color: var(--text-soft); }
-        .project-actions { margin-left: auto; display: flex; gap: 0.5rem; flex-shrink: 0; }
-        .del-form { margin: 0; }
+
+        .count-pill {
+            background: rgba(42, 127, 216, 0.12);
+            border: 1px solid rgba(42, 127, 216, 0.25);
+            border-radius: 99px;
+            padding: 0.35rem 0.9rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+
+        .project-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        .project-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
+        }
+
+        .project-thumb {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .project-name {
+            font-weight: 700;
+            color: var(--text-strong);
+            font-size: 0.9rem;
+        }
+
+        .project-year {
+            font-size: 0.78rem;
+            color: var(--text-soft);
+        }
+
+        .project-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .del-form {
+            margin: 0;
+        }
 
         /* ── Quick links ── */
-        .quick-links { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .chip-link { text-decoration: none; color: var(--text-soft); border: 1px solid var(--border-str); border-radius: 99px; padding: 0.35rem 0.9rem; font-size: 0.8rem; font-weight: 600; transition: all 0.18s; }
-        .chip-link:hover { border-color: var(--accent); color: var(--accent); }
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .chip-link {
+            text-decoration: none;
+            color: var(--text-soft);
+            border: 1px solid var(--border-str);
+            border-radius: 99px;
+            padding: 0.35rem 0.9rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.18s;
+        }
+
+        .chip-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
 
         /* ── Login ── */
-        .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg); }
-        .login-card { background: var(--bg-card); border: 1px solid var(--border-str); border-radius: 22px; padding: 2.5rem 2rem; width: 100%; max-width: 380px; box-shadow: var(--shadow); }
-        .login-logo-row { display: flex; justify-content: center; margin-bottom: 1.5rem; }
-        .login-logo { width: 56px; height: 56px; object-fit: contain; }
-        .login-title { text-align: center; font-size: 1.25rem; font-weight: 900; margin-bottom: 0.4rem; }
-        .login-sub { text-align: center; color: var(--text-soft); font-size: 0.88rem; margin-bottom: 1.8rem; }
+        .login-wrap {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-str);
+            border-radius: 22px;
+            padding: 2.5rem 2rem;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: var(--shadow);
+        }
+
+        .login-logo-row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-logo {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 900;
+            margin-bottom: 0.4rem;
+        }
+
+        .login-sub {
+            text-align: center;
+            color: var(--text-soft);
+            font-size: 0.88rem;
+            margin-bottom: 1.8rem;
+        }
 
         /* ── Alerts ── */
-        .alert { padding: 0.7rem 1rem; border-radius: 10px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.2rem; }
-        .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #fca5a5; }
+        .alert {
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: #fca5a5;
+        }
 
         /* ── Responsive ── */
         @media (max-width: 900px) {
-            .sidebar { display: none; }
-            .main-content { padding: 1.5rem 1rem; }
-            .stats-grid { grid-template-columns: 1fr 1fr; }
-            .form-grid { grid-template-columns: 1fr; }
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
         }
+
         @media (max-width: 600px) {
-            .stats-grid { grid-template-columns: 1fr; }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
 
-{% if session.get('giris_yapildi') %}
-<div class="admin-layout">
+    {% if session.get('giris_yapildi') %}
+    <div class="admin-layout">
 
-    <!-- ── Sidebar ── -->
-    <aside class="sidebar">
-        <div class="sidebar-brand">
-            <img src="{{ url_for('static', filename='uploads/logo.png') }}" alt="Logo">
-            <span>DERİN MAVİ</span>
-        </div>
-
-        <nav class="sidebar-nav">
-            <span class="sidebar-section-label">Yönetim</span>
-            <button class="nav-item active" id="tab-btn-dashboard" onclick="showTab('dashboard')">
-                <span class="nav-icon">📊</span> Genel Bakış
-            </button>
-            <button class="nav-item" id="tab-btn-projeler" onclick="showTab('projeler')">
-                <span class="nav-icon">🗂️</span> Projeler
-            </button>
-            <button class="nav-item" id="tab-btn-mesajlar" onclick="showTab('mesajlar')">
-                <span class="nav-icon">📨</span> Gelen Mesajlar
-                {% if mesajlar|length > 0 %}<span style="background:var(--accent); color:#fff; border-radius:99px; padding:2px 8px; font-size:0.7rem; margin-left:auto;">{{ mesajlar|length }}</span>{% endif %}
-            </button>
-
-            <span class="sidebar-section-label" style="margin-top:0.5rem;">Site</span>
-            <a class="nav-item" href="{{ url_for('ana_sayfa') }}" target="_blank">
-                <span class="nav-icon">🏠</span> Anasayfa
-            </a>
-            <a class="nav-item" href="{{ url_for('takimimiz') }}" target="_blank">
-                <span class="nav-icon">👥</span> Takımımız
-            </a>
-            <a class="nav-item" href="{{ url_for('projelerimiz') }}" target="_blank">
-                <span class="nav-icon">🚀</span> Projelerimiz
-            </a>
-        </nav>
-
-        <div class="sidebar-bottom">
-            <a class="nav-item" href="{{ url_for('logout') }}">
-                <span class="nav-icon">🔓</span> Çıkış Yap
-            </a>
-        </div>
-    </aside>
-
-    <!-- ── Main ── -->
-    <main class="main-content">
-
-        <!-- Topbar -->
-        <div class="topbar">
-            <div>
-                <div class="topbar-title" id="topbar-heading">Genel Bakış</div>
-                <div class="topbar-sub" id="topbar-sub">Sisteme hoş geldiniz.</div>
-            </div>
-            <div class="admin-status"><span class="status-dot"></span> Admin Aktif</div>
-        </div>
-
-        <!-- ─── TAB: Dashboard ─── -->
-        <div class="tab-panel active" id="tab-dashboard">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-card-label">Toplam Proje</div>
-                    <div class="stat-card-val">{{ projeler|length }}</div>
-                    <div class="stat-card-sub">Veritabanında kayıtlı</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-label">Durum</div>
-                    <div class="stat-card-val" style="font-size:1.3rem; color:#10b981;">Yayında ✓</div>
-                    <div class="stat-card-sub">Sunucu çalışıyor</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-card-label">Depolama</div>
-                    <div class="stat-card-val">5 MB</div>
-                    <div class="stat-card-sub">Uploads limiti</div>
-                </div>
+        <!-- ── Sidebar ── -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="{{ url_for('static', filename='uploads/logo.png') }}" alt="Logo">
+                <span>DERİN MAVİ</span>
             </div>
 
-            <div class="panel-card">
-                <div class="panel-card-head"><h2>🔗 Hızlı Erişim</h2></div>
-                <div class="quick-links">
-                    <a class="chip-link" href="{{ url_for('ana_sayfa') }}" target="_blank">Anasayfa →</a>
-                    <a class="chip-link" href="{{ url_for('takimimiz') }}" target="_blank">Takımımız →</a>
-                    <a class="chip-link" href="{{ url_for('projelerimiz') }}" target="_blank">Projelerimiz →</a>
-                    <a class="chip-link" href="{{ url_for('basarilarimiz') }}" target="_blank">Başarılarımız →</a>
-                    <a class="chip-link" href="{{ url_for('sponsorlarimiz') }}" target="_blank">Sponsorlarımız →</a>
-                    <a class="chip-link" href="{{ url_for('iletisim') }}" target="_blank">İletişim →</a>
+            <nav class="sidebar-nav">
+                <span class="sidebar-section-label">Yönetim</span>
+                <button class="nav-item active" id="tab-btn-dashboard" onclick="showTab('dashboard')">
+                    <span class="nav-icon">📊</span> Genel Bakış
+                </button>
+                <button class="nav-item" id="tab-btn-projeler" onclick="showTab('projeler')">
+                    <span class="nav-icon">🗂️</span> Projeler
+                </button>
+                <button class="nav-item" id="tab-btn-mesajlar" onclick="showTab('mesajlar')">
+                    <span class="nav-icon">📨</span> Gelen Mesajlar
+                    {% if mesajlar|length > 0 %}<span
+                        style="background:var(--accent); color:#fff; border-radius:99px; padding:2px 8px; font-size:0.7rem; margin-left:auto;">{{
+                        mesajlar|length }}</span>{% endif %}
+                </button>
+
+                <span class="sidebar-section-label" style="margin-top:0.5rem;">Site</span>
+                <a class="nav-item" href="{{ url_for('ana_sayfa') }}" target="_blank">
+                    <span class="nav-icon">🏠</span> Anasayfa
+                </a>
+                <a class="nav-item" href="{{ url_for('takimimiz') }}" target="_blank">
+                    <span class="nav-icon">👥</span> Takımımız
+                </a>
+                <a class="nav-item" href="{{ url_for('projelerimiz') }}" target="_blank">
+                    <span class="nav-icon">🚀</span> Projelerimiz
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a class="nav-item" href="{{ url_for('logout') }}">
+                    <span class="nav-icon">🔓</span> Çıkış Yap
+                </a>
+            </div>
+        </aside>
+
+        <!-- ── Main ── -->
+        <main class="main-content">
+
+            <!-- Topbar -->
+            <div class="topbar">
+                <div>
+                    <div class="topbar-title" id="topbar-heading">Genel Bakış</div>
+                    <div class="topbar-sub" id="topbar-sub">Sisteme hoş geldiniz.</div>
                 </div>
+                <div class="admin-status"><span class="status-dot"></span> Admin Aktif</div>
             </div>
 
-            <div class="panel-card">
-                <div class="panel-card-head"><h2>💡 Takım Yönetimi</h2></div>
-                <p style="color: var(--text-soft); font-size: 0.9rem; line-height: 1.7;">
-                    Üye eklemek, düzenlemek veya silmek için
-                    <a href="{{ url_for('takimimiz') }}" style="color: var(--accent); font-weight: 700;">Takımımız sayfasına</a>
-                    gidin. Admin modunda üye kartlarında <strong>✏️ Düzenle</strong> ve <strong>🗑️ Sil</strong> butonları görünür olacak, ayrıca yeni üye ekleyebilirsiniz.
-                </p>
-            </div>
-        </div>
-
-        <!-- ─── TAB: Projeler ─── -->
-        <div class="tab-panel" id="tab-projeler">
-
-            <div class="panel-card">
-                <div class="panel-card-head"><h2>🛠️ Yeni Proje Ekle</h2></div>
-                <form method="POST" enctype="multipart/form-data" action="{{ url_for('admin') }}">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Proje Başlığı *</label>
-                            <input type="text" name="baslik" placeholder="Örn: Otonom İHA" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Yıl</label>
-                            <input type="number" name="yil" placeholder="Örn: 2026" min="2000" max="2100">
-                        </div>
-                        <div class="form-group full">
-                            <label>Proje Açıklaması *</label>
-                            <textarea name="aciklama" rows="3" placeholder="Proje detayları..." required></textarea>
-                        </div>
-                        <div class="form-group full">
-                            <label>Teknik Özellikler (her satır 1 özellik)</label>
-                            <textarea name="ozellikler" rows="4" placeholder="Otonom rota takibi&#10;Gerçek zamanlı telemetri"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Proje Resmi</label>
-                            <input type="file" name="resim" accept="image/*">
-                        </div>
-                        <div class="form-group">
-                            <label>3D Model (STL)</label>
-                            <input type="file" name="stl" accept=".stl">
-                        </div>
+            <!-- ─── TAB: Dashboard ─── -->
+            <div class="tab-panel active" id="tab-dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-label">Toplam Proje</div>
+                        <div class="stat-card-val">{{ projeler|length }}</div>
+                        <div class="stat-card-sub">Veritabanında kayıtlı</div>
                     </div>
-                    <div style="margin-top: 1rem;">
-                        <button class="btn-primary" type="submit">Projeyi Ekle</button>
+                    <div class="stat-card">
+                        <div class="stat-card-label">Durum</div>
+                        <div class="stat-card-val" style="font-size:1.3rem; color:#10b981;">Yayında ✓</div>
+                        <div class="stat-card-sub">Sunucu çalışıyor</div>
                     </div>
-                </form>
+                    <div class="stat-card">
+                        <div class="stat-card-label">Depolama</div>
+                        <div class="stat-card-val">5 MB</div>
+                        <div class="stat-card-sub">Uploads limiti</div>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <h2>🔗 Hızlı Erişim</h2>
+                    </div>
+                    <div class="quick-links">
+                        <a class="chip-link" href="{{ url_for('ana_sayfa') }}" target="_blank">Anasayfa →</a>
+                        <a class="chip-link" href="{{ url_for('takimimiz') }}" target="_blank">Takımımız →</a>
+                        <a class="chip-link" href="{{ url_for('projelerimiz') }}" target="_blank">Projelerimiz →</a>
+                        <a class="chip-link" href="{{ url_for('basarilarimiz') }}" target="_blank">Başarılarımız →</a>
+                        <a class="chip-link" href="{{ url_for('iletisim') }}" target="_blank">İletişim →</a>
+                    </div>
+                </div>
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <h2>💡 Takım Yönetimi</h2>
+                    </div>
+                    <p style="color: var(--text-soft); font-size: 0.9rem; line-height: 1.7;">
+                        Üye eklemek, düzenlemek veya silmek için
+                        <a href="{{ url_for('takimimiz') }}" style="color: var(--accent); font-weight: 700;">Takımımız
+                            sayfasına</a>
+                        gidin. Admin modunda üye kartlarında <strong>✏️ Düzenle</strong> ve <strong>🗑️ Sil</strong>
+                        butonları görünür olacak, ayrıca yeni üye ekleyebilirsiniz.
+                    </p>
+                </div>
             </div>
 
-            <div class="panel-card">
-                <div class="panel-card-head">
-                    <h2>📁 Mevcut Projeler</h2>
-                    <span class="count-pill" id="visible-count">{{ projeler|length }} proje</span>
-                </div>
-                <div class="search-row">
-                    <input type="text" id="project-search" placeholder="Projelerde ara..." style="border: 1.5px solid rgba(255,255,255,0.1); border-radius: 10px; background: rgba(0,0,0,0.25); color: var(--text-strong); padding: 0.55rem 0.75rem; font-family: inherit; font-size: 0.88rem; outline: none; width: 100%;">
-                </div>
-                <ul class="project-list">
-                    {% for proje in projeler %}
-                    <li class="project-item" data-title="{{ proje.baslik|lower }}">
-                        <img class="project-thumb"
-                             src="{{ url_for('static', filename='uploads/' ~ proje.resim) }}"
-                             alt="{{ proje.baslik }}"
-                             onerror="this.style.background='rgba(42,127,216,0.1)'; this.removeAttribute('src');">
-                        <div>
-                            <div class="project-name">{{ proje.baslik }}</div>
-                            <div class="project-year">{{ proje.yil or '—' }}</div>
-                        </div>
-                        <div class="project-actions">
-                            <a href="/duzenle/{{ proje.id }}" class="btn-edit-sm">Düzenle</a>
-                            <form class="del-form" method="POST" action="/sil/{{ proje.id }}">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                                <button type="submit" class="btn-danger" onclick="return confirm('{{ proje.baslik }} silinsin mi?');">Sil</button>
-                            </form>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+            <!-- ─── TAB: Projeler ─── -->
+            <div class="tab-panel" id="tab-projeler">
 
-        <!-- ─── TAB: Mesajlar ─── -->
-        <div class="tab-panel" id="tab-mesajlar">
-            <div class="panel-card">
-                <div class="panel-card-head">
-                    <h2>📨 Gelen İletişim Mesajları</h2>
-                    <span class="count-pill">{{ mesajlar|length }} Mesaj</span>
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <h2>🛠️ Yeni Proje Ekle</h2>
+                    </div>
+                    <form method="POST" enctype="multipart/form-data" action="{{ url_for('admin') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Proje Başlığı *</label>
+                                <input type="text" name="baslik" placeholder="Örn: Otonom İHA" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Yıl</label>
+                                <input type="number" name="yil" placeholder="Örn: 2026" min="2000" max="2100">
+                            </div>
+                            <div class="form-group full">
+                                <label>Proje Açıklaması *</label>
+                                <textarea name="aciklama" rows="3" placeholder="Proje detayları..." required></textarea>
+                            </div>
+                            <div class="form-group full">
+                                <label>Teknik Özellikler (her satır 1 özellik)</label>
+                                <textarea name="ozellikler" rows="4"
+                                    placeholder="Otonom rota takibi&#10;Gerçek zamanlı telemetri"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Proje Resmi</label>
+                                <input type="file" name="resim" accept="image/*">
+                            </div>
+                            <div class="form-group">
+                                <label>3D Model (STL)</label>
+                                <input type="file" name="stl" accept=".stl">
+                            </div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn-primary" type="submit">Projeyi Ekle</button>
+                        </div>
+                    </form>
                 </div>
-                
-                {% if mesajlar|length == 0 %}
+
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <h2>📁 Mevcut Projeler</h2>
+                        <span class="count-pill" id="visible-count">{{ projeler|length }} proje</span>
+                    </div>
+                    <div class="search-row">
+                        <input type="text" id="project-search" placeholder="Projelerde ara..."
+                            style="border: 1.5px solid rgba(255,255,255,0.1); border-radius: 10px; background: rgba(0,0,0,0.25); color: var(--text-strong); padding: 0.55rem 0.75rem; font-family: inherit; font-size: 0.88rem; outline: none; width: 100%;">
+                    </div>
+                    <ul class="project-list">
+                        {% for proje in projeler %}
+                        <li class="project-item" data-title="{{ proje.baslik|lower }}">
+                            <img class="project-thumb" src="{{ url_for('static', filename='uploads/' ~ proje.resim) }}"
+                                alt="{{ proje.baslik }}"
+                                onerror="this.style.background='rgba(42,127,216,0.1)'; this.removeAttribute('src');">
+                            <div>
+                                <div class="project-name">{{ proje.baslik }}</div>
+                                <div class="project-year">{{ proje.yil or '—' }}</div>
+                            </div>
+                            <div class="project-actions">
+                                <a href="/duzenle/{{ proje.id }}" class="btn-edit-sm">Düzenle</a>
+                                <form class="del-form" method="POST" action="/sil/{{ proje.id }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn-danger"
+                                        onclick="return confirm('{{ proje.baslik }} silinsin mi?');">Sil</button>
+                                </form>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ─── TAB: Mesajlar ─── -->
+            <div class="tab-panel" id="tab-mesajlar">
+                <div class="panel-card">
+                    <div class="panel-card-head">
+                        <h2>📨 Gelen İletişim Mesajları</h2>
+                        <span class="count-pill">{{ mesajlar|length }} Mesaj</span>
+                    </div>
+
+                    {% if mesajlar|length == 0 %}
                     <p style="color:var(--text-soft); font-style:italic; padding:1rem 0;">Henüz hiç mesajınız yok.</p>
-                {% else %}
+                    {% else %}
                     <div style="display:flex; flex-direction:column; gap:1rem;">
                         {% for mesaj in mesajlar %}
-                        <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:12px; padding:1.2rem; position:relative;">
-                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.8rem;">
+                        <div
+                            style="background:var(--bg-alt); border:1px solid var(--border); border-radius:12px; padding:1.2rem; position:relative;">
+                            <div
+                                style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.8rem;">
                                 <div>
-                                    <h3 style="margin:0; font-size:1rem; color:var(--text-strong);">{{ mesaj.ad_soyad }}</h3>
-                                    <a href="mailto:{{ mesaj.eposta }}" style="color:var(--accent); font-size:0.85rem; text-decoration:none;">{{ mesaj.eposta }}</a>
+                                    <h3 style="margin:0; font-size:1rem; color:var(--text-strong);">{{ mesaj.ad_soyad }}
+                                    </h3>
+                                    <a href="mailto:{{ mesaj.eposta }}"
+                                        style="color:var(--accent); font-size:0.85rem; text-decoration:none;">{{
+                                        mesaj.eposta }}</a>
                                 </div>
                                 <div style="display:flex; flex-direction:column; align-items:flex-end; gap:0.5rem;">
                                     <span style="font-size:0.75rem; color:var(--text-soft);">{{ mesaj.tarih }}</span>
-                                    <button onclick="mesajSil({{ mesaj.id }})" class="btn-danger" style="padding:4px 8px; font-size:0.75rem; border:none;">🗑️ Sil</button>
+                                    <button onclick="mesajSil({{ mesaj.id }})" class="btn-danger"
+                                        style="padding:4px 8px; font-size:0.75rem; border:none;">🗑️ Sil</button>
                                 </div>
                             </div>
-                            <p style="margin:0; font-size:0.95rem; color:var(--text-soft); line-height:1.6; white-space:pre-wrap;">{{ mesaj.mesaj }}</p>
+                            <p
+                                style="margin:0; font-size:0.95rem; color:var(--text-soft); line-height:1.6; white-space:pre-wrap;">
+                                {{ mesaj.mesaj }}</p>
                         </div>
                         {% endfor %}
                     </div>
-                {% endif %}
+                    {% endif %}
+                </div>
             </div>
-        </div>
-    </main>
-</div>
+        </main>
+    </div>
 
-{% else %}
-<!-- ── Giriş Ekranı ── -->
-<div class="login-wrap">
-    <div class="login-card">
-        <div class="login-logo-row">
-            <img class="login-logo" src="{{ url_for('static', filename='uploads/logo.png') }}" alt="Derin Mavi">
-        </div>
-        <h1 class="login-title">Yönetici Girişi</h1>
-        <p class="login-sub">Derin Mavi yönetim paneline erişmek için şifrenizi girin.</p>
-
-        {% if request.method == 'POST' and not session.get('giris_yapildi') %}
-        <div class="alert alert-error">Hatalı şifre. Lütfen tekrar deneyin.</div>
-        {% endif %}
-
-        <form method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <div class="form-group">
-                <label>Şifre</label>
-                <input type="password" name="sifre" required autofocus>
+    {% else %}
+    <!-- ── Giriş Ekranı ── -->
+    <div class="login-wrap">
+        <div class="login-card">
+            <div class="login-logo-row">
+                <img class="login-logo" src="{{ url_for('static', filename='uploads/logo.png') }}" alt="Derin Mavi">
             </div>
-            <button class="btn-primary" type="submit" style="width: 100%; margin-top: 1rem;">Giriş Yap</button>
-        </form>
-        <div style="text-align: center; margin-top: 1.2rem;">
-            <a href="{{ url_for('ana_sayfa') }}" style="color: var(--text-soft); font-size: 0.85rem;">← Ana Sayfaya Dön</a>
+            <h1 class="login-title">Yönetici Girişi</h1>
+            <p class="login-sub">Derin Mavi yönetim paneline erişmek için şifrenizi girin.</p>
+
+            {% if request.method == 'POST' and not session.get('giris_yapildi') %}
+            <div class="alert alert-error">Hatalı şifre. Lütfen tekrar deneyin.</div>
+            {% endif %}
+
+            <form method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="form-group">
+                    <label>Şifre</label>
+                    <input type="password" name="sifre" required autofocus>
+                </div>
+                <button class="btn-primary" type="submit" style="width: 100%; margin-top: 1rem;">Giriş Yap</button>
+            </form>
+            <div style="text-align: center; margin-top: 1.2rem;">
+                <a href="{{ url_for('ana_sayfa') }}" style="color: var(--text-soft); font-size: 0.85rem;">← Ana Sayfaya
+                    Dön</a>
+            </div>
         </div>
     </div>
-</div>
-{% endif %}
+    {% endif %}
 
-{% if session.get('giris_yapildi') %}
-<script>
-    // Tab switching
-    function showTab(name) {
-        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
-        document.querySelectorAll('.nav-item[id^="tab-btn-"]').forEach(function(b) { b.classList.remove('active'); });
-        document.getElementById('tab-' + name).classList.add('active');
-        document.getElementById('tab-btn-' + name).classList.add('active');
-        const titles = {
-            'dashboard': ['Genel Bakış', 'Sisteme hoş geldiniz.'],
-            'projeler':  ['Projeler', 'Projeleri ekle, düzenle ve yönet.'],
-            'mesajlar':  ['Gelen Mesajlar', 'İletişim formundan gelen mailler.']
-        };
-        if (titles[name]) {
-            document.getElementById('topbar-heading').textContent = titles[name][0];
-            document.getElementById('topbar-sub').textContent = titles[name][1];
-        }
-    }
-
-    async function mesajSil(id) {
-        if(!confirm('Bu mesajı silmek istediğinize emin misiniz?')) return;
-        try {
-            const res = await fetch(`/api/iletisim/sil/${id}`, {
-                method: 'POST',
-                headers: { 'X-CSRFToken': '{{ csrf_token() }}' }
-            });
-            const result = await res.json();
-            if (result.ok) {
-                window.location.reload();
-            } else {
-                alert('Silme başarısız: ' + (result.error || 'Bilinmeyen hata'));
+    {% if session.get('giris_yapildi') %}
+    <script>
+        // Tab switching
+        function showTab(name) {
+            document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
+            document.querySelectorAll('.nav-item[id^="tab-btn-"]').forEach(function (b) { b.classList.remove('active'); });
+            document.getElementById('tab-' + name).classList.add('active');
+            document.getElementById('tab-btn-' + name).classList.add('active');
+            const titles = {
+                'dashboard': ['Genel Bakış', 'Sisteme hoş geldiniz.'],
+                'projeler': ['Projeler', 'Projeleri ekle, düzenle ve yönet.'],
+                'mesajlar': ['Gelen Mesajlar', 'İletişim formundan gelen mailler.']
+            };
+            if (titles[name]) {
+                document.getElementById('topbar-heading').textContent = titles[name][0];
+                document.getElementById('topbar-sub').textContent = titles[name][1];
             }
-        } catch(err) {
-            alert('Silme sırasında hata oluştu.');
         }
-    }
 
-    // Proje arama
-    (function() {
-        const inp = document.getElementById('project-search');
-        const items = Array.from(document.querySelectorAll('.project-item'));
-        const cnt = document.getElementById('visible-count');
-        if (!inp) return;
-        inp.addEventListener('input', function() {
-            const q = inp.value.trim().toLowerCase();
-            let v = 0;
-            items.forEach(function(it) {
-                const show = (it.getAttribute('data-title') || '').includes(q);
-                it.style.display = show ? 'flex' : 'none';
-                if (show) v++;
+        async function mesajSil(id) {
+            if (!confirm('Bu mesajı silmek istediğinize emin misiniz?')) return;
+            try {
+                const res = await fetch(`/api/iletisim/sil/${id}`, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': '{{ csrf_token() }}' }
+                });
+                const result = await res.json();
+                if (result.ok) {
+                    window.location.reload();
+                } else {
+                    alert('Silme başarısız: ' + (result.error || 'Bilinmeyen hata'));
+                }
+            } catch (err) {
+                alert('Silme sırasında hata oluştu.');
+            }
+        }
+
+        // Proje arama
+        (function () {
+            const inp = document.getElementById('project-search');
+            const items = Array.from(document.querySelectorAll('.project-item'));
+            const cnt = document.getElementById('visible-count');
+            if (!inp) return;
+            inp.addEventListener('input', function () {
+                const q = inp.value.trim().toLowerCase();
+                let v = 0;
+                items.forEach(function (it) {
+                    const show = (it.getAttribute('data-title') || '').includes(q);
+                    it.style.display = show ? 'flex' : 'none';
+                    if (show) v++;
+                });
+                cnt.textContent = v + ' proje';
             });
-            cnt.textContent = v + ' proje';
-        });
-    })();
-</script>
-{% endif %}
+        })();
+    </script>
+    {% endif %}
 </body>
+
 </html>
